@@ -1,6 +1,7 @@
 import axios from "../../api/axios";
 import React from "react";
 import apiRoute from "../../api/apiRoute";
+import formatDate from "../../util/formatDate";
 
 function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
   const handleBookingStatus = (bookingId, status) => {
@@ -25,25 +26,13 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
           <div className="timeline-item">
             <span className="time">
               <i className="far fa-clock" /> Created at{" "}
-              {new Date(item.createdDate).toUTCString()}
+              {formatDate(item.createdDate, "UTC")}
             </span>
-            <h3 className="timeline-header">
-              {new Date(item.bookingDate).toLocaleDateString("ro-RO")}
-            </h3>
+            <h3 className="timeline-header">{formatDate(item.bookingDate)}</h3>
             <div className="timeline-body">
               <ul>
-                <li>
-                  Date:{" "}
-                  {new Date(item.bookingDate).toLocaleDateString("ro-RO", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </li>
-                <li>
-                  Time: {new Date(item.bookingDate).toLocaleTimeString("ro-RO")}
-                </li>
+                <li>Date: {formatDate(item.bookingDate, "LONG")}</li>
+                <li>Time: {formatDate(item.bookingDate, "TIME")}</li>
                 <li>Notes: {item.bookingNotes ? item.bookingNotes : "None"}</li>
               </ul>
             </div>

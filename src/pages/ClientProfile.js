@@ -5,8 +5,10 @@ import apiRoute from "../api/apiRoute";
 import FormProfileModify from "./components/FormProfileModify";
 import UpcomingBookingsProfile from "./components/UpcomingBookingsProfile";
 import { useHistory } from "react-router-dom";
-import BookingsProfile from "./components/BookingsProfile";
 import FormProfileAddBooking from "./components/FormProfileAddBooking";
+import TableUtil from "./components/TableUtil";
+import handleBookingStatusColor from "../util/bookingStatusColor";
+import formatDate from "../util/formatDate";
 
 function ClientProfile() {
   const { id } = useParams();
@@ -31,6 +33,31 @@ function ClientProfile() {
     fetchData();
   }, [id]);
 
+  const columnsData = ["Date", "Time", "Status", "Created","Id"];
+  const rowsData = clientDataBookings.map((item) => (
+    <tr key={item.id}>
+      <td>{formatDate(item.bookingDate)}</td>
+      <td>{formatDate(item.bookingDate, "TIME")}</td>
+      <td>
+        <span
+          className={`badge badge-${handleBookingStatusColor(
+            item.bookingStatus
+            )}`}
+            >
+          {item.bookingStatus}
+        </span>
+      </td>
+      <td>
+        {formatDate(item.createdDate)} | {formatDate(item.createdDate, "TIME")}
+      </td>
+      <td>{item.id}</td>
+    </tr>
+  ));
+
+  const filterBookingsData = (option) => {
+    return clientDataBookings.filter((items) => items.bookingStatus === option);
+  };
+
   const handleDeleteClient = () => {
     deleteClient(clientData.clientId)
       .then(() => {
@@ -52,12 +79,10 @@ function ClientProfile() {
           </div>
         </div>
       </section>
-
       <section className="content">
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-3">
-              {/* Profile Image */}
               <div className="card card-primary card-outline">
                 <div className="card-body box-profile">
                   <div className="text-center">
@@ -86,9 +111,7 @@ function ClientProfile() {
                   </button>
                 </div>
               </div>
-              <div className="card card-primary"></div>
             </div>
-
             <div className="col-md-9">
               <div className="card">
                 <div className="card-header p-2">
@@ -131,18 +154,25 @@ function ClientProfile() {
                     </li>
                   </ul>
                 </div>
-
                 <div className="card-body">
                   <div className="tab-content">
                     <div className="active tab-pane" id="activity">
-                      <BookingsProfile
-                        clientDataBookings={clientDataBookings}
+                      <TableUtil
+                        tableHeaderData={columnsData}
+                        tableBodyData={rowsData}
                       />
+                      <div>
+                        <p>
+                          Stats: {filterBookingsData("CONFIRM").length} Confirm
+                          | {filterBookingsData("UPCOMING").length} Upcoming |{" "}
+                          {filterBookingsData("CANCEL").length} Cancel
+                        </p>
+                      </div>
                     </div>
                     <div className="tab-pane" id="upcoming-bookings">
                       <UpcomingBookingsProfile
-                        clientDataUpcomingBookings={clientDataBookings.filter(
-                          (items) => items.bookingStatus === "UPCOMING"
+                        clientDataUpcomingBookings={filterBookingsData(
+                          "UPCOMING"
                         )}
                       />
                     </div>

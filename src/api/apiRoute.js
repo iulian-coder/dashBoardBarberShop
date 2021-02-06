@@ -1,6 +1,7 @@
 const apiRoute = {
     clients: "/clients",
-    bookings: "/bookings",   
+    bookings: "/bookings",
+    dashboard:"/dashboard"   
   };
   
   export default apiRoute;
