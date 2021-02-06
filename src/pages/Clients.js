@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
+import TableUtil from "./components/TableUtil";
 
 function Clients() {
   const [clientsData, setClientsData] = useState([]);
@@ -16,9 +17,34 @@ function Clients() {
     }
     fetchData();
   }, []);
+
+  const clientsTableHeaderData = [
+    "Client_id",
+    "First Name",
+    "Last Name",
+    "E-mail",
+    "Phone",
+    "Action",
+  ];
+
+  const clientsTableBodyData = clientsData.map((item) => (
+    <tr key={item.clientId}>
+      <td>{item.clientId}</td>
+      <td>{item.firstName}</td>
+      <td>{item.lastName}</td>
+      <td>{item.email}</td>
+      <td>{item.phoneNo}</td>
+      <td>
+        <a href={`/clients/${item.clientId}`}>
+          {" "}
+          <i className="fas fa-user-edit" />
+        </a>
+      </td>
+    </tr>
+  ));
+
   return (
     <div className="content-wrapper">
-      {/* Content Header (Page header) */}
       <section className="content-header">
         <div className="container-fluid">
           <div className="row mb-2">
@@ -34,51 +60,20 @@ function Clients() {
             </div>
           </div>
         </div>
-        {/* /.container-fluid */}
       </section>
-      {/* Main content */}
       <section className="content">
         <div className="card">
           <div className="card-header">
             <h3 className="card-title">Clients</h3>
           </div>
-          {/* /.card-header */}
           <div className="card-body">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Crt</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>E-mail</th>
-                  <th>Phone</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {clientsData.map((item, index) => (
-                  <tr key={item.clientId}>
-                    <td>{index + 1}</td>
-                    <td>{item.firstName}</td>
-                    <td>{item.lastName}</td>
-                    <td>{item.email}</td>
-                    <td>{item.phoneNo}</td>
-                    <td>
-                      <a href={`/clients/${item.clientId}`}>
-                        {" "}
-                        <i className="fas fa-user-edit" />
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <TableUtil
+              tableBodyData={clientsTableBodyData}
+              tableHeaderData={clientsTableHeaderData}
+            />
           </div>
-          {/* /.card-body */}
         </div>
-        {/* /.card */}
       </section>
-      {/* /.content */}
     </div>
   );
 }

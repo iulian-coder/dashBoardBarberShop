@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
 import handleBookingStatusColor from "../util/bookingStatusColor";
+import TableUtil from "./components/TableUtil";
 
 function DashboardHome() {
   const [dataDashboard, setDataDashboard] = useState([]);
@@ -19,6 +20,29 @@ function DashboardHome() {
     }
     fetchData();
   }, []);
+
+  const dashBoardTableHeaderData = ["Date", "Time", "Status", "Client"];
+
+  const dashBoardTableBodyData = latestBookings.map((item) => (
+    <tr key={item.id}>
+      <td>{new Date(item.bookingDate).toLocaleDateString("ro-RO")}</td>
+      <td>{new Date(item.bookingDate).toLocaleTimeString("ro-RO")}</td>
+      <td>
+        <span
+          className={`badge badge-${handleBookingStatusColor(
+            item.bookingStatus
+          )}`}
+        >
+          {item.bookingStatus}
+        </span>
+      </td>
+      <td>
+        <a href={`/clients/${item.client.clientId}`}>
+          {item.client.firstName} {item.client.lastName}
+        </a>
+      </td>
+    </tr>
+  ));
 
   return (
     <div className="content-wrapper">
@@ -120,7 +144,7 @@ function DashboardHome() {
 
           <div className="card">
             <div className="card-header border-transparent">
-              <h3 className="card-title">Latest Bookings</h3>
+              <h3 className="card-title">Next Bookings</h3>
               <div className="card-tools">
                 <button
                   type="button"
@@ -138,53 +162,14 @@ function DashboardHome() {
                 </button>
               </div>
             </div>
-            {/* /.card-header */}
+
             <div className="card-body p-0">
-              <div className="table-responsive">
-                <table className="table m-0">
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Time</th>
-                      <th>Status</th>
-                      <th>Client</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {latestBookings.map((item) => (
-                      <tr key={item.id}>
-                        <td>
-                          {new Date(item.bookingDate).toLocaleDateString(
-                            "ro-RO"
-                          )}
-                        </td>
-                        <td>
-                          {new Date(item.bookingDate).toLocaleTimeString(
-                            "ro-RO"
-                          )}
-                        </td>
-                        <td>
-                          <span
-                            className={`badge badge-${handleBookingStatusColor(
-                              item.bookingStatus
-                            )}`}
-                          >
-                            {item.bookingStatus}
-                          </span>
-                        </td>
-                        <td>
-                          <a href={`/clients/${item.client.clientId}`}>
-                            {item.client.firstName} {item.client.lastName}
-                          </a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              {/* /.table-responsive */}
+              <TableUtil
+                tableHeaderData={dashBoardTableHeaderData}
+                tableBodyData={dashBoardTableBodyData}
+              />
             </div>
-            {/* /.card-body */}
+
             <div className="card-footer clearfix">
               <a href="/search" className="btn btn-sm btn-info float-left">
                 Add New Booking

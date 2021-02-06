@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
 import handleBookingStatusColor from "../util/bookingStatusColor";
+import TableUtil from "./components/TableUtil";
 
 function Bookings() {
   const [bookingsData, setBookingsData] = useState([]);
@@ -25,6 +26,59 @@ function Bookings() {
   const handlePageNo = (dataPage) => {
     setPageNo(pageNo + dataPage);
   };
+
+  const bookingsTableHeaderData = [
+    "Booking_Id",
+    "Date",
+    "Time",
+    "Client",
+    "Status",
+    "Created",
+    "Updated",
+  ];
+  const bookingsTableBodyData = bookingsData.map((item) => (
+    <tr key={item.id}>
+      <td>{item.id}</td>
+      <td>{new Date(item.bookingDate).toLocaleDateString("ro-RO")}</td>
+      <td>{new Date(item.bookingDate).toLocaleTimeString("ro-RO")}</td>
+      <td>
+        <a href={`/clients/${item.client.clientId}`}>
+          {item.client.firstName} {item.client.lastName}
+        </a>
+      </td>
+      <td>
+        {" "}
+        <span
+          className={`badge badge-${handleBookingStatusColor(
+            item.bookingStatus
+          )}`}
+        >
+          {item.bookingStatus}
+        </span>
+      </td>
+      <td>{new Date(item.createdDate).toUTCString()}</td>
+      <td>{new Date(item.updatedDate).toUTCString()}</td>
+    </tr>
+  ));
+
+  const tableFootData = (
+    <tr>
+      {bookingsData.length >= 10 && (
+        <td>
+          <button className="page-link" onClick={() => handlePageNo(1)}>
+            Next
+          </button>
+        </td>
+      )}
+      {pageNo >= 1 && (
+        <td>
+          <button className="page-link" onClick={() => handlePageNo(-1)}>
+            Back
+          </button>
+        </td>
+      )}
+    </tr>
+  );
 
   return (
     <div className="content-wrapper">
@@ -54,78 +108,11 @@ function Bookings() {
                   <h3 className="card-title">Bookings</h3>
                 </div>
                 <div className="card-body">
-                  <table id="example2" className="table">
-                    <thead>
-                      <tr>
-                        <th>Booking_Id</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Client</th>
-                        <th>Status</th>
-                        <th>Created</th>
-                        <th>Updated</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {bookingsData.map((item) => (
-                        <tr key={item.id}>
-                          <td>{item.id}</td>
-                          <td>
-                            {new Date(item.bookingDate).toLocaleDateString(
-                              "ro-RO"
-                            )}
-                          </td>
-                          <td>
-                            {new Date(item.bookingDate).toLocaleTimeString(
-                              "ro-RO"
-                            )}
-                          </td>
-                          <td>
-                            <a href={`/clients/${item.client.clientId}`}>
-                              {item.client.firstName} {item.client.lastName}
-                            </a>
-                          </td>
-                          <td>
-                            {" "}
-                            <span
-                              className={`badge badge-${handleBookingStatusColor(
-                                item.bookingStatus
-                              )}`}
-                            >
-                              {item.bookingStatus}
-                            </span>
-                          </td>
-                          <td>{new Date(item.createdDate).toUTCString()}</td>
-                          <td>{new Date(item.updatedDate).toUTCString()}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-
-                    <tfoot>
-                      <tr>
-                        {bookingsData.length >= 10 && (
-                          <td>
-                            <button
-                              className="page-link"
-                              onClick={() => handlePageNo(1)}
-                            >
-                              Next
-                            </button>
-                          </td>
-                        )}
-                        {pageNo >= 1 && (
-                          <td>
-                            <button
-                              className="page-link"
-                              onClick={() => handlePageNo(-1)}
-                            >
-                              Back
-                            </button>
-                          </td>
-                        )}
-                      </tr>
-                    </tfoot>
-                  </table>
+                  <TableUtil
+                    tableHeaderData={bookingsTableHeaderData}
+                    tableBodyData={bookingsTableBodyData}
+                    tableFootData={tableFootData}
+                  />
                 </div>
               </div>
             </div>
