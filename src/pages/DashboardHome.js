@@ -13,7 +13,7 @@ function DashboardHome() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const responseData = await axios.get(apiRoute.bookings + `/dashboard`);
+        const responseData = await axios.get(apiRoute.dashboard);
         setDataDashboard(responseData.data);
         setLatestBookings(responseData.data.latestBookings);
       } catch (error) {
@@ -46,8 +46,6 @@ function DashboardHome() {
     </tr>
   ));
 
-  const reportDate = formatDate(dataDashboard.reportDate, "MONTH");
-
   return (
     <div className="content-wrapper">
       <div className="content-header">
@@ -70,29 +68,37 @@ function DashboardHome() {
               dataLink="/clients"
             />
             <StatBox
-              dataName={`${reportDate} Upcoming Bookings`}
+              dataName={`${formatDate(
+                dataDashboard.reportDate,
+                "MONTH"
+              )} Upcoming Bookings`}
               dataValue={dataDashboard.totalUpcomingBookings}
               dataColor={"bg-info"}
               dataIcon="ion ion-cash"
               dataLink="/bookings"
             />
             <StatBox
-              dataName={`${reportDate} Confirmed Bookings`}
+              dataName={`${formatDate(
+                dataDashboard.reportDate,
+                "MONTH"
+              )} Confirmed Bookings`}
               dataValue={dataDashboard.totalConfirmedBookings}
               dataColor="bg-success"
               dataIcon="ion ion-stats-bars"
               dataLink="/bookings"
             />
             <StatBox
-              dataName={reportDate}
-              Canceled
-              Bookings
+              dataName={`${formatDate(
+                dataDashboard.reportDate,
+                "MONTH"
+              )} Canceled Bookings`}
               dataValue={dataDashboard.totalCanceledBookings}
               dataColor="bg-danger"
               dataIcon="ion ion-stats-bars"
               dataLink="/bookings"
             />
           </div>
+
           <div className="card">
             <div className="card-header border-transparent">
               <h3 className="card-title">Next Bookings</h3>

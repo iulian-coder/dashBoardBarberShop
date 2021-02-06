@@ -6,7 +6,14 @@ export default function formatDate(date, option) {
     case "UTC":
       return dateToFormat.toUTCString();
     case "MONTH":
-      return dateToFormat.toLocaleDateString("en-EN", {month:"long"})
+      return dateToFormat.toLocaleDateString("en-EN", { month: "long" });
+    case "LONG":
+      return dateToFormat.toLocaleDateString("ro-RO", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
     default:
       return dateToFormat.toLocaleDateString("ro-RO");
   }

@@ -19,21 +19,21 @@ function Clients() {
   }, []);
 
   const clientsTableHeaderData = [
-    "Client_id",
     "First Name",
     "Last Name",
     "E-mail",
     "Phone",
+    "Id",
     "Action",
   ];
 
   const clientsTableBodyData = clientsData.map((item) => (
     <tr key={item.clientId}>
-      <td>{item.clientId}</td>
       <td>{item.firstName}</td>
       <td>{item.lastName}</td>
       <td>{item.email}</td>
       <td>{item.phoneNo}</td>
+      <td>{item.clientId}</td>
       <td>
         <a href={`/clients/${item.clientId}`}>
           {" "}

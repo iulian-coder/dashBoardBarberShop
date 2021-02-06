@@ -29,17 +29,16 @@ function Bookings() {
   };
 
   const bookingsTableHeaderData = [
-    "Booking_Id",
     "Date",
     "Time",
     "Client",
     "Status",
     "Created",
     "Updated",
+    "Id",
   ];
   const bookingsTableBodyData = bookingsData.map((item) => (
     <tr key={item.id}>
-      <td>{item.id}</td>
       <td>{formatDate(item.bookingDate)}</td>
       <td>{formatDate(item.bookingDate, "TIME")}</td>
       <td>
@@ -52,16 +51,17 @@ function Bookings() {
         <span
           className={`badge badge-${handleBookingStatusColor(
             item.bookingStatus
-          )}`}
-        >
+            )}`}
+            >
           {item.bookingStatus}
         </span>
       </td>
       <td>{formatDate(item.createdDate, "UTC")}</td>
       <td>{formatDate(item.updatedDate, "UTC")}</td>
+      <td>{item.id}</td>
     </tr>
   ));
-
+  
   const tableFootData = (
     <tr>
       {bookingsData.length >= 10 && (
@@ -83,7 +83,6 @@ function Bookings() {
 
   return (
     <div className="content-wrapper">
-      {/* Content Header (Page header) */}
       <section className="content-header">
         <div className="container-fluid">
           <div className="row mb-2">
