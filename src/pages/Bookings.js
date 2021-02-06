@@ -3,6 +3,7 @@ import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
 import handleBookingStatusColor from "../util/bookingStatusColor";
 import TableUtil from "./components/TableUtil";
+import formatDate from "../util/formatDate";
 
 function Bookings() {
   const [bookingsData, setBookingsData] = useState([]);
@@ -39,8 +40,8 @@ function Bookings() {
   const bookingsTableBodyData = bookingsData.map((item) => (
     <tr key={item.id}>
       <td>{item.id}</td>
-      <td>{new Date(item.bookingDate).toLocaleDateString("ro-RO")}</td>
-      <td>{new Date(item.bookingDate).toLocaleTimeString("ro-RO")}</td>
+      <td>{formatDate(item.bookingDate)}</td>
+      <td>{formatDate(item.bookingDate, "TIME")}</td>
       <td>
         <a href={`/clients/${item.client.clientId}`}>
           {item.client.firstName} {item.client.lastName}
@@ -56,8 +57,8 @@ function Bookings() {
           {item.bookingStatus}
         </span>
       </td>
-      <td>{new Date(item.createdDate).toUTCString()}</td>
-      <td>{new Date(item.updatedDate).toUTCString()}</td>
+      <td>{formatDate(item.createdDate, "UTC")}</td>
+      <td>{formatDate(item.updatedDate, "UTC")}</td>
     </tr>
   ));
 

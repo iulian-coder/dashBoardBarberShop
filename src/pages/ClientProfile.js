@@ -5,8 +5,10 @@ import apiRoute from "../api/apiRoute";
 import FormProfileModify from "./components/FormProfileModify";
 import UpcomingBookingsProfile from "./components/UpcomingBookingsProfile";
 import { useHistory } from "react-router-dom";
-import BookingsProfile from "./components/BookingsProfile";
 import FormProfileAddBooking from "./components/FormProfileAddBooking";
+import TableUtil from "./components/TableUtil";
+import handleBookingStatusColor from "../util/bookingStatusColor";
+import formatDate from "../util/formatDate";
 
 function ClientProfile() {
   const { id } = useParams();
@@ -30,6 +32,31 @@ function ClientProfile() {
     }
     fetchData();
   }, [id]);
+
+  const columnsData = ["Booking_id", "Date", "Time", "Status", "Created"];
+  const rowsData = clientDataBookings.map((item) => (
+    <tr key={item.id}>
+      <td>{item.id}</td>
+      <td>{formatDate(item.bookingDate)}</td>
+      <td>{formatDate(item.bookingDate, "TIME")}</td>
+      <td>
+        <span
+          className={`badge badge-${handleBookingStatusColor(
+            item.bookingStatus
+          )}`}
+        >
+          {item.bookingStatus}
+        </span>
+      </td>
+      <td>
+        {formatDate(item.createdDate)} | {formatDate(item.createdDate, "time")}
+      </td>
+    </tr>
+  ));
+
+  const clientDataUpcomingBookings = clientDataBookings.filter(
+    (items) => items.bookingStatus === "UPCOMING"
+  );
 
   const handleDeleteClient = () => {
     deleteClient(clientData.clientId)
@@ -135,15 +162,14 @@ function ClientProfile() {
                 <div className="card-body">
                   <div className="tab-content">
                     <div className="active tab-pane" id="activity">
-                      <BookingsProfile
-                        clientDataBookings={clientDataBookings}
+                      <TableUtil
+                        tableHeaderData={columnsData}
+                        tableBodyData={rowsData}
                       />
                     </div>
                     <div className="tab-pane" id="upcoming-bookings">
                       <UpcomingBookingsProfile
-                        clientDataUpcomingBookings={clientDataBookings.filter(
-                          (items) => items.bookingStatus === "UPCOMING"
-                        )}
+                        clientDataUpcomingBookings={clientDataUpcomingBookings}
                       />
                     </div>
                     <div className="tab-pane" id="modify-profile">
