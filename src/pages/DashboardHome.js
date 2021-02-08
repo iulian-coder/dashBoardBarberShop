@@ -61,8 +61,11 @@ function DashboardHome() {
         <div className="container-fluid">
           <div className="row">
             <StatBox
-              dataName="Registered Clients"
-              dataValue={dataDashboard.totalClients}
+              dataName={`${formatDate(
+                dataDashboard.reportDate,
+                "MONTH"
+              )} New Clients`}
+              dataValue={dataDashboard.newClients}
               dataColor="bg-warning"
               dataIcon="ion ion-person-add"
               dataLink="/clients"

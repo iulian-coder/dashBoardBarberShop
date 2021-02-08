@@ -10,7 +10,9 @@ import AddClient from "./pages/AddClient";
 import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
 
+
 function App() {
+  
   return (
     <Router>
       <div className="wrapper">

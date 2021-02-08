@@ -51,8 +51,8 @@ function Bookings() {
         <span
           className={`badge badge-${handleBookingStatusColor(
             item.bookingStatus
-            )}`}
-            >
+          )}`}
+        >
           {item.bookingStatus}
         </span>
       </td>
@@ -61,25 +61,27 @@ function Bookings() {
       <td>{item.id}</td>
     </tr>
   ));
-  
-  const tableFootData = (
-    <tr>
-      {bookingsData.length >= 10 && (
+
+  const tableFootData =
+    bookingsData.length >= 10 && pageNo === 0 ? (
+      <tr>
         <td>
           <button className="page-link" onClick={() => handlePageNo(1)}>
             Next
           </button>
         </td>
-      )}
-      {pageNo >= 1 && (
+      </tr>
+    ) : bookingsData.length >= 1 && !pageNo === 0 ? (
+      <tr>
         <td>
           <button className="page-link" onClick={() => handlePageNo(-1)}>
             Back
           </button>
         </td>
-      )}
-    </tr>
-  );
+      </tr>
+    ) : (
+      ""
+    );
 
   return (
     <div className="content-wrapper">
