@@ -9,7 +9,8 @@ import ClientProfile from "./pages/ClientProfile";
 import AddClient from "./pages/AddClient";
 import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
-import NotFound from "./pages/Page404";
+import Page404 from "./pages/Page404";
+import PageError from "./pages/PageError";
 
 function App() {
   return (
@@ -38,7 +39,8 @@ function App() {
           <Route exact path="/">
             <DashboardHome />
           </Route>
-          <Route component={NotFound} />
+          <Route exact path="/error" component={PageError} />
+          <Route component={Page404} />
         </Switch>
         <Footer />
       </div>

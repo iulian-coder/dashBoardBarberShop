@@ -70,8 +70,16 @@ function FormProfileAddBooking({ clientId }) {
             id="inputSpecialRequest"
             placeholder="Notes"
             name="bookingNotes"
-            ref={register()}
+            ref={register({
+              maxLength: {
+                message: "This field cannot be longer then 70 characters",
+                value: 70,
+              },
+            })}
           />
+          {errors.bookingNotes && (
+            <small className="text-danger">{errors.bookingNotes.message}</small>
+          )}
         </div>
       </div>
       <div className="form-group row">

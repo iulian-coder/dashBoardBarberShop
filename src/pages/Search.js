@@ -11,17 +11,20 @@ function Search() {
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const responseData = await axios.get(
-          apiRoute.clients + `/search-client`
-        );
-        setItems(responseData.data);
-      } catch (error) {
-        console.log(error);
-      }
+      await axios
+        .get(apiRoute.clients + `/search-client`)
+        .then(({ data }) => {
+          setItems(data);
+        })
+        .catch((error) => {
+          history.push({
+            pathname: "/error",
+            state: { detail: error.message },
+          });
+        });
     }
     fetchData();
-  }, []);
+  }, [history]);
 
   const handleOnSelect = (item) => {
     // the item selected

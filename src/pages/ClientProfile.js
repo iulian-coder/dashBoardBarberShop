@@ -19,21 +19,26 @@ function ClientProfile() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const dataClientResponse = await axios.get(apiRoute.clients + `/${id}`);
-        setClientData(dataClientResponse.data);
-        const dataBookingsResponse = await axios.get(
-          apiRoute.bookings + `/history/${id}`
-        );
-        setClientDataBookings(dataBookingsResponse.data);
+        await axios.get(apiRoute.clients + `/${id}`).then(({ data }) => {
+          setClientData(data);
+        });
+
+        await axios
+          .get(apiRoute.bookings + `/history/${id}`)
+          .then(({ data }) => {
+            setClientDataBookings(data);
+          });
       } catch (error) {
-        console.log(error);
-        // error message notification
+        history.push({
+          pathname: "/error",
+          state: { detail: error.message },
+        });
       }
     }
     fetchData();
-  }, [id]);
+  }, [id, history]);
 
-  const columnsData = ["Date", "Time", "Status", "Created","Id"];
+  const columnsData = ["Date", "Time", "Status", "Created", "Id"];
   const rowsData = clientDataBookings.map((item) => (
     <tr key={item.id}>
       <td>{formatDate(item.bookingDate)}</td>
@@ -42,8 +47,8 @@ function ClientProfile() {
         <span
           className={`badge badge-${handleBookingStatusColor(
             item.bookingStatus
-            )}`}
-            >
+          )}`}
+        >
           {item.bookingStatus}
         </span>
       </td>

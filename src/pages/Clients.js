@@ -2,21 +2,28 @@ import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
 import TableUtil from "./components/TableUtil";
+import { useHistory } from "react-router-dom";
 
 function Clients() {
   const [clientsData, setClientsData] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const dataResponse = await axios.get(apiRoute.clients);
-        setClientsData(dataResponse.data);
-      } catch (error) {
-        console.log(error);
-      }
+      await axios
+        .get(apiRoute.clients)
+        .then(({ data }) => {
+          setClientsData(data);
+        })
+        .catch((error) => {
+          history.push({
+            pathname: "/error",
+            state: { detail: error.message },
+          });
+        });
     }
     fetchData();
-  }, []);
+  }, [history]);
 
   const clientsTableHeaderData = [
     "First Name",
