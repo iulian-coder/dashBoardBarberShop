@@ -5,28 +5,31 @@ import handleBookingStatusColor from "../util/bookingStatusColor";
 import TableUtil from "./components/TableUtil";
 import formatDate from "../util/formatDate";
 import StatBox from "./components/StatBox";
+import { useHistory } from "react-router-dom";
 
 function DashboardHome() {
   const [dataDashboard, setDataDashboard] = useState([]);
   const [latestBookings, setLatestBookings] = useState([]);
-  // const [httpStatusCode, setHttpStatusCode] = useState();
+  const history = useHistory();
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        await axios.get(apiRoute.dashboard).then(({ status, data }) => {
-          // setHttpStatusCode(status);
+      await axios
+        .get(apiRoute.dashboard)
+        .then(({ data }) => {
           setDataDashboard(data);
           setLatestBookings(data.latestBookings);
+        })
+        .catch((error) => {
+          history.push({
+            pathname: "/error",
+            state: { detail: error.message },
+          });
         });
-      } catch (error) {
-        console.log(error);
-      }
     }
     fetchData();
-  }, []);
+  }, [history]);
 
-  // console.log(httpStatusCode);
   const dashBoardTableHeaderData = ["Date", "Time", "Status", "Client"];
 
   const dashBoardTableBodyData = latestBookings.map((item) => (

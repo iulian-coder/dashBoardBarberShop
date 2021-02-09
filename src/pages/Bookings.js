@@ -4,28 +4,35 @@ import apiRoute from "../api/apiRoute";
 import handleBookingStatusColor from "../util/bookingStatusColor";
 import TableUtil from "./components/TableUtil";
 import formatDate from "../util/formatDate";
+import { useHistory } from "react-router-dom";
 
 function Bookings() {
   const [bookingsData, setBookingsData] = useState([]);
-  const [pageNo, setPageNo] = useState(0);
-  const pageNoResults = 10;
-
+  const [pageNumber, setPageNumber] = useState(0);
+  const numberOfResultsOnPage = 10;
+  const history = useHistory();
   useEffect(() => {
     async function fetchData() {
-      try {
-        const responseData = await axios.get(
-          apiRoute.bookings + `?page=${pageNo}&size=${pageNoResults}`
-        );
-        setBookingsData(responseData.data);
-      } catch (error) {
-        console.log(error);
-      }
+      await axios
+        .get(
+          apiRoute.bookings +
+            `?page=${pageNumber}&size=${numberOfResultsOnPage}`
+        )
+        .then(({ data }) => {
+          setBookingsData(data);
+        })
+        .catch((error) => {
+          history.push({
+            pathname: "/error",
+            state: { detail: error.message },
+          });
+        });
     }
     fetchData();
-  }, [pageNo]);
+  }, [pageNumber, history]);
 
   const handlePageNo = (dataPage) => {
-    setPageNo(pageNo + dataPage);
+    setPageNumber(pageNumber + dataPage);
   };
 
   const bookingsTableHeaderData = [
@@ -63,7 +70,7 @@ function Bookings() {
   ));
 
   const tableFootData =
-    bookingsData.length >= 10 && pageNo === 0 ? (
+    bookingsData.length >= 10 && pageNumber === 0 ? (
       <tr>
         <td>
           <button className="page-link" onClick={() => handlePageNo(1)}>
@@ -71,7 +78,7 @@ function Bookings() {
           </button>
         </td>
       </tr>
-    ) : bookingsData.length >= 1 && !pageNo === 0 ? (
+    ) : bookingsData.length >= 1 && pageNumber !== 0 ? (
       <tr>
         <td>
           <button className="page-link" onClick={() => handlePageNo(-1)}>
@@ -79,9 +86,7 @@ function Bookings() {
           </button>
         </td>
       </tr>
-    ) : (
-      ""
-    );
+    ) : null;
 
   return (
     <div className="content-wrapper">
