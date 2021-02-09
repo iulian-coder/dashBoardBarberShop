@@ -9,13 +9,16 @@ import StatBox from "./components/StatBox";
 function DashboardHome() {
   const [dataDashboard, setDataDashboard] = useState([]);
   const [latestBookings, setLatestBookings] = useState([]);
+  // const [httpStatusCode, setHttpStatusCode] = useState();
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const responseData = await axios.get(apiRoute.dashboard);
-        setDataDashboard(responseData.data);
-        setLatestBookings(responseData.data.latestBookings);
+        await axios.get(apiRoute.dashboard).then(({ status, data }) => {
+          // setHttpStatusCode(status);
+          setDataDashboard(data);
+          setLatestBookings(data.latestBookings);
+        });
       } catch (error) {
         console.log(error);
       }
@@ -23,6 +26,7 @@ function DashboardHome() {
     fetchData();
   }, []);
 
+  // console.log(httpStatusCode);
   const dashBoardTableHeaderData = ["Date", "Time", "Status", "Client"];
 
   const dashBoardTableBodyData = latestBookings.map((item) => (
