@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 function FormProfileAddBooking({ clientId }) {
-  const { handleSubmit, control, register } = useForm();
+  const { handleSubmit, control, register, errors } = useForm();
 
   const onSubmit = (data) => {
     let BookingDTO = {
@@ -45,9 +45,20 @@ function FormProfileAddBooking({ clientId }) {
                 placeholderText="Click to select date"
               />
             )}
+            rules={{
+              validate: (data) => {
+                const dateSelected = new Date(data);
+                const dateNow = new Date();
+                return dateSelected.valueOf() >= dateNow.valueOf();
+              },
+            }}
           />
         </div>
+        {errors.bookingDate && (
+          <small className="text-danger">The date must be in the future!</small>
+        )}
       </div>
+      <div className="form-group row"></div>
       <div className="form-group row">
         <label htmlFor="inputBookingNotes" className="col-sm-2 col-form-label">
           Notes

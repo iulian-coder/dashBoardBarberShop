@@ -5,9 +5,9 @@ function TableUtil({ tableHeaderData, tableBodyData, tableFootData }) {
     <div className="table-responsive">
       <table className="table table-bordered m-0 table-sm">
         <thead>
-          <tr>
+          <tr >
             {tableHeaderData.map((item, index) => (
-              <th key={index}>{item}</th>
+              <th  key={index}>{item}</th>
             ))}
           </tr>
         </thead>
