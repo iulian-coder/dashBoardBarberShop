@@ -2,7 +2,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "../../api/axios";
 import apiRoute from "../../api/apiRoute";
-import _ from "lodash/fp";
 
 function FormProfileModify({ clientData }) {
   const { register, handleSubmit, errors } = useForm();
@@ -39,23 +38,23 @@ function FormProfileModify({ clientData }) {
             placeholder="First Name"
             name="firstName"
             ref={register({
-              required: true,
-              minLength: 3,
-              maxLength: 20,
-              pattern: /^[A-Za-z]+$/i,
+              required: { message: "This field is required", value: true },
+              maxLength: {
+                message: "This field cannot exceed 20 characters",
+                value: 20,
+              },
+              minLength: {
+                message: "This field cannot be less then 3 characters",
+                value: 3,
+              },
+              pattern: {
+                message: "Alphabetical characters only",
+                value: /^[A-Za-z]+$/i,
+              },
             })}
           />
-          {_.get("firstName.type", errors) === "required" && (
-            <p>This field is required</p>
-          )}
-          {_.get("firstName.type", errors) === "maxLength" && (
-            <p>First name cannot exceed 20 characters</p>
-          )}
-          {_.get("firstName.type", errors) === "minLength" && (
-            <p>First name cannot be less then 3 characters</p>
-          )}
-          {_.get("firstName.type", errors) === "pattern" && (
-            <p>Alphabetical characters only</p>
+          {errors.firstName && (
+            <small className="text-danger">{errors.firstName.message}</small>
           )}
         </div>
       </div>
@@ -72,23 +71,23 @@ function FormProfileModify({ clientData }) {
             defaultValue={clientData.lastName}
             name="lastName"
             ref={register({
-              required: true,
-              minLength: 3,
-              maxLength: 20,
-              pattern: /^[A-Za-z]+$/i,
+              required: { message: "This field is required", value: true },
+              maxLength: {
+                message: "This field cannot exceed 20 characters",
+                value: 20,
+              },
+              minLength: {
+                message: "This field cannot be less then 3 characters",
+                value: 3,
+              },
+              pattern: {
+                message: "Alphabetical characters only",
+                value: /^[A-Za-z]+$/i,
+              },
             })}
           />
-          {_.get("lastName.type", errors) === "required" && (
-            <p>This field is required</p>
-          )}
-          {_.get("lastName.type", errors) === "maxLength" && (
-            <p>Last name cannot exceed 20 characters</p>
-          )}
-          {_.get("lastName.type", errors) === "minLength" && (
-            <p>Last name cannot be less then 3 characters</p>
-          )}
-          {_.get("lastName.type", errors) === "pattern" && (
-            <p>Alphabetical characters only</p>
+          {errors.lastName && (
+            <small className="text-danger">{errors.lastName.message}</small>
           )}
         </div>
       </div>
@@ -104,10 +103,12 @@ function FormProfileModify({ clientData }) {
             id="inputEmail"
             placeholder="Email"
             defaultValue={clientData.email}
-            ref={register({ required: true })}
+            ref={register({
+              required: { message: "This field is required", value: true },
+            })}
           />
-          {_.get("email.type", errors) === "required" && (
-            <p>This field is required</p>
+          {errors.email && (
+            <small className="text-danger">{errors.email.message}</small>
           )}
         </div>
       </div>
@@ -123,16 +124,20 @@ function FormProfileModify({ clientData }) {
             placeholder="Phone"
             name="phoneNo"
             defaultValue={clientData.phoneNo}
-            ref={register({ required: true, minLength: 4, maxLength: 15 })}
+            ref={register({
+              required: { message: "This field is required", value: true },
+              minLength: {
+                message: "This field cannot be less then 4 digits",
+                value: 4,
+              },
+              maxLength: {
+                message: "This field cannot exceed 15 characters",
+                value: 15,
+              },
+            })}
           />
-          {_.get("phoneNo.type", errors) === "required" && (
-            <p>This field is required</p>
-          )}
-          {_.get("phoneNo.type", errors) === "minLength" && (
-            <p>This number must be more then 4 digits</p>
-          )}
-          {_.get("phoneNo.type", errors) === "maxLength" && (
-            <p>This number cannot exceed 15 digits</p>
+          {errors.phoneNo && (
+            <small className="text-danger">{errors.phoneNo.message}</small>
           )}
         </div>
       </div>

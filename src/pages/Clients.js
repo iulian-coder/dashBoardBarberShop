@@ -34,10 +34,10 @@ function Clients() {
       <td>{item.email}</td>
       <td>{item.phoneNo}</td>
       <td>{item.clientId}</td>
-      <td>
+      <td align="center">
         <a href={`/clients/${item.clientId}`}>
           {" "}
-          <i className="fas fa-user-edit" />
+          <i className="fas fa-ellipsis-h" />
         </a>
       </td>
     </tr>
