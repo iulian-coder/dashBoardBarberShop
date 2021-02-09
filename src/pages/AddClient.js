@@ -11,12 +11,13 @@ function AddClient() {
   const onSubmit = (data) => {
     addClient(data)
       .then((res) => {
-        if (res.clientId >= 0) {
-          history.push("/clients");
-        }
+        history.push(`/clients/${res.clientId}`);
       })
       .catch((error) => {
-        console.log(error);
+        history.push({
+          pathname: "/error",
+          state: { detail: error.message },
+        });
       });
   };
 
@@ -142,10 +143,7 @@ function AddClient() {
 export default AddClient;
 
 async function addClient(data) {
-  try {
-    let dataResponse = await axios.post(apiRoute.clients, data);
-    return dataResponse.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await axios.post(apiRoute.clients, data);
+
+  return response.data;
 }
