@@ -11,6 +11,8 @@ import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
 import Page404 from "./pages/Page404";
 import PageError from "./pages/PageError";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
       <div className="wrapper">
         <Header />
         <Menu />
+        <ToastContainer />
         <Switch>
           <Route exact path="/clients">
             <Clients />
