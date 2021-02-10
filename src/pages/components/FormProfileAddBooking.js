@@ -19,9 +19,12 @@ function FormProfileAddBooking({ clientId }) {
     };
     addBooking(BookingDTO)
       .then((res) => {
-        toast.success(`New booking added ${res.client.lastName}`);
-        
-        // history.push(`/clients/${res.client.clientId}`);
+        localStorage.setItem(
+          "message",
+          `New booking profile ID:${res.client.clientId} created`
+        );
+
+        history.go(0);
       })
       .catch((error) => {
         toast.error("Something went wrong ! Add Booking");
