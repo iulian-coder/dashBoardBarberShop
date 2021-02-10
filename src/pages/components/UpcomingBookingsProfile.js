@@ -2,8 +2,10 @@ import axios from "../../api/axios";
 import React from "react";
 import apiRoute from "../../api/apiRoute";
 import formatDate from "../../util/formatDate";
+import { useHistory } from "react-router-dom";
 
 function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
+  const history = useHistory();
   const handleBookingStatus = (bookingId, status) => {
     let bookingData = {
       id: bookingId,
@@ -14,7 +16,10 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
         window.location.reload();
       })
       .catch((error) => {
-        console.log(error);
+        history.push({
+          pathname: "/error",
+          state: { detail: error.message },
+        });
       });
   };
 
@@ -63,10 +68,6 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
 export default UpcomingBookingsProfile;
 
 async function changeBookingStatus(data) {
-  try {
-    const responseData = await axios.put(apiRoute.bookings, data);
-    return responseData.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const responseData = await axios.put(apiRoute.bookings, data);
+  return responseData.data;
 }

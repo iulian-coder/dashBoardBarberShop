@@ -40,8 +40,8 @@ function Search() {
             <div className="col-md-8 offset-md-2">
               <ReactSearchAutocomplete
                 items={items}
-                fuseOptions={{ keys: ["firstName", "phoneNo"] }}
-                resultStringKeyName="firstNameAndPhone"
+                fuseOptions={{ keys: ["firstName", "lastName", "phoneNo"] }}
+                resultStringKeyName="nameAndPhone"
                 placeholder="Type Name or Phone"
                 onSelect={handleOnSelect}
               />

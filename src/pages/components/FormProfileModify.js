@@ -2,9 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "../../api/axios";
 import apiRoute from "../../api/apiRoute";
+import { useHistory } from "react-router-dom";
 
 function FormProfileModify({ clientData }) {
   const { register, handleSubmit, errors } = useForm();
+  const history = useHistory();
 
   const onSubmit = (formData) => {
     let updateData = {
@@ -14,13 +16,16 @@ function FormProfileModify({ clientData }) {
       email: formData.email,
       phoneNo: formData.phoneNo,
     };
-    updateClient(updateData).then((res) => {
-      if (res) {
+    updateClient(updateData)
+      .then(() => {
         window.location.reload();
-      } else {
-        console.log("error");
-      }
-    });
+      })
+      .catch((error) => {
+        history.push({
+          pathname: "/error",
+          state: { detail: error.message },
+        });
+      });
   };
 
   return (
@@ -155,10 +160,6 @@ function FormProfileModify({ clientData }) {
 export default FormProfileModify;
 
 async function updateClient(updateData) {
-  try {
-    const dataResponse = await axios.put(apiRoute.clients, updateData);
-    return dataResponse.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const dataResponse = await axios.put(apiRoute.clients, updateData);
+  return dataResponse.data;
 }
