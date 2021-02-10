@@ -69,7 +69,10 @@ function ClientProfile() {
         history.push("/clients");
       })
       .catch((error) => {
-        console.log(error);
+        history.push({
+          pathname: "/error",
+          state: { detail: error.message },
+        });
       });
   };
 
@@ -201,12 +204,8 @@ function ClientProfile() {
 export default ClientProfile;
 
 async function deleteClient(dataId) {
-  try {
-    let dataResponse = await axios.delete(apiRoute.clients, {
-      data: { clientId: dataId },
-    });
-    return dataResponse.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const dataResponse = await axios.delete(apiRoute.clients, {
+    data: { clientId: dataId },
+  });
+  return dataResponse.data;
 }

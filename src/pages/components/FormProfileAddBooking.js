@@ -30,29 +30,62 @@ function FormProfileAddBooking({ clientId }) {
           Date
         </label>
         <div className="col-sm-10">
-          <Controller
-            name="bookingDate"
-            defaultValue={new Date()}
-            control={control}
-            render={({ onChange, value }) => (
-              <DatePicker
-                selected={value}
-                onChange={onChange}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                showTimeSelect
-                dateFormat="MMMM d, yyyy h:mm aa"
-                placeholderText="Click to select date"
-              />
-            )}
-            rules={{
-              validate: (data) => {
-                const dateSelected = new Date(data);
-                const dateNow = new Date();
-                return dateSelected.valueOf() >= dateNow.valueOf();
-              },
-            }}
-          />
+          {window.innerWidth <= 500 ? (
+            <Controller
+              name="bookingDate"
+              defaultValue={new Date()}
+              control={control}
+              render={({ onChange, value }) => (
+                <DatePicker
+                  selected={value}
+                  onChange={onChange}
+                  minDate={new Date()}
+                  showDisabledMonthNavigation
+                  disabledKeyboardNavigation
+                  closeOnScroll={false}
+                  timeInputLabel="Time: "
+                  showTimeInput
+                  timeFormat="HH:mm"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                  placeholderText="Click to select date"
+                />
+              )}
+              rules={{
+                validate: (data) => {
+                  const dateSelected = new Date(data);
+                  const dateNow = new Date();
+                  return dateSelected.valueOf() >= dateNow.valueOf();
+                },
+              }}
+            />
+          ) : (
+            <Controller
+              name="bookingDate"
+              defaultValue={new Date()}
+              control={control}
+              render={({ onChange, value }) => (
+                <DatePicker
+                  selected={value}
+                  onChange={onChange}
+                  minDate={new Date()}
+                  showDisabledMonthNavigation
+                  disabledKeyboardNavigation
+                  closeOnScroll={false}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  dateFormat="MMMM d, yyyy HH:mm"
+                  placeholderText="Click to select date"
+                />
+              )}
+              rules={{
+                validate: (data) => {
+                  const dateSelected = new Date(data);
+                  const dateNow = new Date();
+                  return dateSelected.valueOf() >= dateNow.valueOf();
+                },
+              }}
+            />
+          )}
         </div>
         {errors.bookingDate && (
           <small className="text-danger">The date must be in the future!</small>
@@ -96,10 +129,6 @@ function FormProfileAddBooking({ clientId }) {
 export default FormProfileAddBooking;
 
 async function addBooking(data) {
-  try {
-    let responseData = await axios.post(apiRoute.bookings, data);
-    return responseData.data;
-  } catch (error) {
-    console.log(error);
-  }
+  const responseData = await axios.post(apiRoute.bookings, data);
+  return responseData.data;
 }
