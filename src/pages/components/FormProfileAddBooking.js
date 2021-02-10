@@ -5,6 +5,7 @@ import apiRoute from "../../api/apiRoute";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function FormProfileAddBooking({ clientId }) {
   const { handleSubmit, control, register, errors } = useForm();
@@ -17,10 +18,13 @@ function FormProfileAddBooking({ clientId }) {
       bookingNotes: data.bookingNotes,
     };
     addBooking(BookingDTO)
-      .then(() => {
-        window.location.reload();
+      .then((res) => {
+        toast.success(`New booking added ${res.client.lastName}`);
+        
+        // history.push(`/clients/${res.client.clientId}`);
       })
       .catch((error) => {
+        toast.error("Something went wrong ! Add Booking");
         history.push({
           pathname: "/error",
           state: { detail: error.message },

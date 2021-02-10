@@ -9,6 +9,7 @@ import FormProfileAddBooking from "./components/FormProfileAddBooking";
 import TableUtil from "./components/TableUtil";
 import handleBookingStatusColor from "../util/bookingStatusColor";
 import formatDate from "../util/formatDate";
+import { toast } from "react-toastify";
 
 function ClientProfile() {
   const { id } = useParams();
@@ -66,9 +67,11 @@ function ClientProfile() {
   const handleDeleteClient = () => {
     deleteClient(clientData.clientId)
       .then(() => {
+        toast.success("Client deleted");
         history.push("/clients");
       })
       .catch((error) => {
+        toast.error("Something went wrong ! Delete client");
         history.push({
           pathname: "/error",
           state: { detail: error.message },

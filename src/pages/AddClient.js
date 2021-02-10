@@ -3,6 +3,7 @@ import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 function AddClient() {
   const { register, handleSubmit, errors } = useForm();
@@ -11,9 +12,11 @@ function AddClient() {
   const onSubmit = (data) => {
     addClient(data)
       .then((res) => {
+        toast.success(`Add Client+${res.firstName} !`);
         history.push(`/clients/${res.clientId}`);
       })
       .catch((error) => {
+        toast.error("Something went wrong! Add Client");
         history.push({
           pathname: "/error",
           state: { detail: error.message },
