@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import axios from "../../api/axios";
 import apiRoute from "../../api/apiRoute";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function FormProfileModify({ clientData }) {
   const { register, handleSubmit, errors } = useForm();
@@ -17,10 +18,15 @@ function FormProfileModify({ clientData }) {
       phoneNo: formData.phoneNo,
     };
     updateClient(updateData)
-      .then(() => {
-        window.location.reload();
+      .then((res) => {
+        localStorage.setItem(
+          "message",
+          `Client profile ID:${res.clientId} updated`
+        );
+        history.go(0);
       })
       .catch((error) => {
+        toast.error("Something went wrong! Modify profile");
         history.push({
           pathname: "/error",
           state: { detail: error.message },

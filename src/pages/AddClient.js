@@ -12,7 +12,7 @@ function AddClient() {
   const onSubmit = (data) => {
     addClient(data)
       .then((res) => {
-        toast.success(`Add Client+${res.firstName} !`);
+        toast.success(`Add Client ${res.firstName} !`);
         history.push(`/clients/${res.clientId}`);
       })
       .catch((error) => {

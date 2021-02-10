@@ -3,19 +3,23 @@ import React from "react";
 import apiRoute from "../../api/apiRoute";
 import formatDate from "../../util/formatDate";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
   const history = useHistory();
+
   const handleBookingStatus = (bookingId, status) => {
     let bookingData = {
       id: bookingId,
       status: status,
     };
     changeBookingStatus(bookingData)
-      .then(() => {
-        window.location.reload();
+      .then((res) => {
+        localStorage.setItem("message", `Booking ID:${res.id} updated`);
+        history.go(0);
       })
       .catch((error) => {
+        toast.error("Something went wrong! Change booking");
         history.push({
           pathname: "/error",
           state: { detail: error.message },

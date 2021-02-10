@@ -79,6 +79,12 @@ function ClientProfile() {
       });
   };
 
+  // Shows notification
+  if (localStorage.getItem("message")) {
+    toast.success(localStorage.getItem("message"));
+    localStorage.removeItem("message");
+  }
+
   return (
     <div className="content-wrapper">
       <section className="content-header">
