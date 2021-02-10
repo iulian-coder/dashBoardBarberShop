@@ -4,9 +4,11 @@ import axios from "../../api/axios";
 import apiRoute from "../../api/apiRoute";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useHistory } from "react-router-dom";
 
 function FormProfileAddBooking({ clientId }) {
   const { handleSubmit, control, register, errors } = useForm();
+  const history = useHistory();
 
   const onSubmit = (data) => {
     let BookingDTO = {
@@ -19,7 +21,10 @@ function FormProfileAddBooking({ clientId }) {
         window.location.reload();
       })
       .catch((error) => {
-        console.log(error);
+        history.push({
+          pathname: "/error",
+          state: { detail: error.message },
+        });
       });
   };
 
