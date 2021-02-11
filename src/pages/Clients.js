@@ -43,7 +43,7 @@ function Clients() {
       <td>{item.firstName}</td>
       <td>{item.lastName}</td>
       <td>{item.email}</td>
-      <td>{item.phoneNo}</td>
+      <td>+{item.phoneNo}</td>
       <td>{item.clientId}</td>
       <td align="center">
         <a href={`/clients/${item.clientId}`}>
