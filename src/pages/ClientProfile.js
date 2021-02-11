@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
-import FormProfileModify from "./components/FormProfileModify";
+import FormProfileModify from "./components/ModifyProfile";
 import UpcomingBookingsProfile from "./components/UpcomingBookingsProfile";
 import { useHistory } from "react-router-dom";
-import FormProfileAddBooking from "./components/FormProfileAddBooking";
+import FormProfileAddBooking from "./components/AddBooking";
 import TableUtil from "./components/TableUtil";
 import handleBookingStatusColor from "../util/bookingStatusColor";
 import formatDate from "../util/formatDate";
@@ -117,7 +117,7 @@ function ClientProfile() {
                       <b>E-mail</b> {clientData.email}
                     </li>
                     <li className="list-group-item">
-                      <b>Phone</b> {clientData.phoneNo}
+                      <b>Phone</b> +{clientData.phoneNo}
                     </li>
                   </ul>
                   <button
@@ -194,7 +194,7 @@ function ClientProfile() {
                       />
                     </div>
                     <div className="tab-pane" id="modify-profile">
-                      <FormProfileModify clientData={clientData} />
+                      <FormProfileModify clientId={id} />
                     </div>
                     <div className="tab-pane" id="add-booking">
                       <FormProfileAddBooking clientId={id} />

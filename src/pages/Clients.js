@@ -6,12 +6,16 @@ import { useHistory } from "react-router-dom";
 
 function Clients() {
   const [clientsData, setClientsData] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0);
+  const numberOfResultsOnPage = 10;
   const history = useHistory();
 
   useEffect(() => {
     async function fetchData() {
       await axios
-        .get(apiRoute.clients)
+        .get(
+          apiRoute.clients + `?page=${pageNumber}&size=${numberOfResultsOnPage}`
+        )
         .then(({ data }) => {
           setClientsData(data);
         })
@@ -23,7 +27,7 @@ function Clients() {
         });
     }
     fetchData();
-  }, [history]);
+  }, [history, pageNumber]);
 
   const clientsTableHeaderData = [
     "First Name",
@@ -49,6 +53,43 @@ function Clients() {
       </td>
     </tr>
   ));
+
+  const tableFootData =
+    clientsData.length === 10 && pageNumber === 0 ? (
+      <tr>
+        <td>
+          <button className="page-link" onClick={() => handlePageNo(1)}>
+            Next
+          </button>
+        </td>
+      </tr>
+    ) : clientsData.length === 10 && pageNumber !== 0 ? (
+      <tr>
+        <td>
+          <button className="page-link" onClick={() => handlePageNo(-1)}>
+            Back
+          </button>
+        </td>
+        <td>
+          {" "}
+          <button className="page-link" onClick={() => handlePageNo(1)}>
+            Next
+          </button>
+        </td>
+      </tr>
+    ) : clientsData.length < 10 && pageNumber !== 0 ? (
+      <tr>
+        <td>
+          <button className="page-link" onClick={() => handlePageNo(-1)}>
+            Back
+          </button>
+        </td>
+      </tr>
+    ) : null;
+
+  const handlePageNo = (dataPage) => {
+    setPageNumber(pageNumber + dataPage);
+  };
 
   return (
     <div className="content-wrapper">
@@ -77,6 +118,7 @@ function Clients() {
             <TableUtil
               tableBodyData={clientsTableBodyData}
               tableHeaderData={clientsTableHeaderData}
+              tableFootData={tableFootData}
             />
           </div>
         </div>

@@ -70,7 +70,7 @@ function Bookings() {
   ));
 
   const tableFootData =
-    bookingsData.length >= 10 && pageNumber === 0 ? (
+    bookingsData.length === 10 && pageNumber === 0 ? (
       <tr>
         <td>
           <button className="page-link" onClick={() => handlePageNo(1)}>
@@ -78,7 +78,21 @@ function Bookings() {
           </button>
         </td>
       </tr>
-    ) : bookingsData.length >= 1 && pageNumber !== 0 ? (
+    ) : bookingsData.length === 10 && pageNumber !== 0 ? (
+      <tr>
+        <td>
+          <button className="page-link" onClick={() => handlePageNo(-1)}>
+            Back
+          </button>
+        </td>
+        <td>
+          {" "}
+          <button className="page-link" onClick={() => handlePageNo(1)}>
+            Next
+          </button>
+        </td>
+      </tr>
+    ) : bookingsData.length < 10 && pageNumber !== 0 ? (
       <tr>
         <td>
           <button className="page-link" onClick={() => handlePageNo(-1)}>
