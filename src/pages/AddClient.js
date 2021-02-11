@@ -2,11 +2,12 @@ import React from "react";
 import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
 import { useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
+import PhoneInput from "react-phone-input-2";
 
 function AddClient() {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, control, errors } = useForm();
   const history = useHistory();
 
   const onSubmit = (data) => {
@@ -30,6 +31,17 @@ function AddClient() {
         <div className="card-header">
           <h3 className="card-title">Add Client</h3>
         </div>
+<div className="media">
+  <img src="dist/img/user1-128x128.jpg" alt="User Avatar" className="img-size-50 mr-3 img-circle" />
+  <div className="media-body">
+    <h3 className="dropdown-item-title">
+      Brad Diesel
+      <span className="float-right text-sm text-danger"><i className="fas fa-star" /></span>
+    </h3>
+    <p className="text-sm">Call me whenever you can...</p>
+    <p className="text-sm text-muted"><i className="far fa-clock mr-1" /> 4 Hours Ago</p>
+  </div>
+</div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="card-body">
@@ -109,26 +121,34 @@ function AddClient() {
             </div>
             <div className="form-group">
               <label htmlFor="exampleInputphone">Phone</label>
-              <input
-                type="number"
-                className="form-control"
-                id="exampleInputPhoneNo"
-                placeholder="Phone"
+              <Controller
                 name="phoneNo"
-                ref={register({
-                  required: { message: "This field is required", value: true },
-                  minLength: {
-                    message: "This field cannot be less then 4 digits",
-                    value: 4,
+                control={control}
+                defaultValue={false}
+                render={({ onChange }) => (
+                  <PhoneInput
+                    placeholder="Enter phone number"
+                    country="ro"
+                    onlyCountries={["ro"]}
+                    countryCodeEditable={false}
+                    onChange={onChange}
+                  />
+                )}
+                rules={{
+                  validate: (data) => {
+                    // Regex Romania country
+                    const regex = new RegExp(
+                      /^(\+?4?0)\s?7\d{2}(\/|\s|\.|-)?\d{3}(\s|\.|-)?\d{3}$/
+                    );
+
+                    return regex.test(data);
                   },
-                  maxLength: {
-                    message: "This field cannot exceed 15 characters",
-                    value: 15,
-                  },
-                })}
+                }}
               />
               {errors.phoneNo && (
-                <small className="text-danger">{errors.phoneNo.message}</small>
+                <small className="text-danger">
+                  Please write phone number !
+                </small>
               )}
             </div>
           </div>
