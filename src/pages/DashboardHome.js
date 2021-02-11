@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 
 function DashboardHome() {
   const [dataDashboard, setDataDashboard] = useState([]);
-  const [latestBookings, setLatestBookings] = useState([]);
+  const [nextBookings, setNextBookings] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function DashboardHome() {
         .get(apiRoute.dashboard)
         .then(({ data }) => {
           setDataDashboard(data);
-          setLatestBookings(data.latestBookings);
+          setNextBookings(data.bookingList);
         })
         .catch((error) => {
           history.push({
@@ -32,7 +32,7 @@ function DashboardHome() {
 
   const dashBoardTableHeaderData = ["Date", "Time", "Status", "Client"];
 
-  const dashBoardTableBodyData = latestBookings.map((item) => (
+  const dashBoardTableBodyData = nextBookings.map((item) => (
     <tr key={item.id}>
       <td>{formatDate(item.bookingDate)}</td>
       <td>{formatDate(item.bookingDate, "TIME")}</td>
@@ -111,7 +111,9 @@ function DashboardHome() {
 
           <div className="card">
             <div className="card-header border-transparent">
-              <h3 className="card-title">Next Bookings</h3>
+              <h3 className="card-title">
+                Next Bookings {formatDate(dataDashboard.reportDate, "MONTH")}
+              </h3>
             </div>
             <div className="card-body p-0">
               <TableUtil

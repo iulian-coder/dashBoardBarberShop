@@ -31,18 +31,6 @@ function AddClient() {
         <div className="card-header">
           <h3 className="card-title">Add Client</h3>
         </div>
-<div className="media">
-  <img src="dist/img/user1-128x128.jpg" alt="User Avatar" className="img-size-50 mr-3 img-circle" />
-  <div className="media-body">
-    <h3 className="dropdown-item-title">
-      Brad Diesel
-      <span className="float-right text-sm text-danger"><i className="fas fa-star" /></span>
-    </h3>
-    <p className="text-sm">Call me whenever you can...</p>
-    <p className="text-sm text-muted"><i className="far fa-clock mr-1" /> 4 Hours Ago</p>
-  </div>
-</div>
-
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="card-body">
             <div className="form-group">

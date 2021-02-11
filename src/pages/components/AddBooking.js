@@ -25,7 +25,7 @@ function FormProfileAddBooking({ clientId }) {
           `New booking ID:${res.id} created | ${
             data.sendSms
               ? "SMS Developer account works only with register numbers"
-              : "SMS - No"
+              : ""
           }`
         );
 
