@@ -1,57 +1,16 @@
-import React, { useEffect, useState } from "react";
-import axios from "../api/axios";
+import React from "react";
 import apiRoute from "../api/apiRoute";
 import handleBookingStatusColor from "../util/bookingStatusColor";
 import TableUtil from "./components/TableUtil";
 import formatDate from "../util/formatDate";
 import StatBox from "./components/StatBox";
-import { useHistory } from "react-router-dom";
+import useQuery from "../api/useQuery";
 
 function DashboardHome() {
-  const [dataDashboard, setDataDashboard] = useState([]);
-  const [nextBookings, setNextBookings] = useState([]);
-  const history = useHistory();
-
-  useEffect(() => {
-    async function fetchData() {
-      await axios
-        .get(apiRoute.dashboard)
-        .then(({ data }) => {
-          setDataDashboard(data);
-          setNextBookings(data.bookingList);
-        })
-        .catch((error) => {
-          history.push({
-            pathname: "/error",
-            state: { detail: error.message },
-          });
-        });
-    }
-    fetchData();
-  }, [history]);
-
+  const { apiData } = useQuery({
+    url: apiRoute.dashboard,
+  });
   const dashBoardTableHeaderData = ["Date", "Time", "Status", "Client"];
-
-  const dashBoardTableBodyData = nextBookings.map((item) => (
-    <tr key={item.id}>
-      <td>{formatDate(item.bookingDate)}</td>
-      <td>{formatDate(item.bookingDate, "TIME")}</td>
-      <td>
-        <span
-          className={`badge badge-${handleBookingStatusColor(
-            item.bookingStatus
-          )}`}
-        >
-          {item.bookingStatus}
-        </span>
-      </td>
-      <td>
-        <a href={`/clients/${item.client.clientId}`}>
-          {item.client.firstName} {item.client.lastName}
-        </a>
-      </td>
-    </tr>
-  ));
 
   return (
     <div className="content-wrapper">
@@ -66,60 +25,65 @@ function DashboardHome() {
       </div>
       <section className="content">
         <div className="container-fluid">
-          <div className="row">
-            <StatBox
-              dataName={`${formatDate(
-                dataDashboard.reportDate,
-                "MONTH"
-              )} New Clients`}
-              dataValue={dataDashboard.newClients}
-              dataColor="bg-warning"
-              dataIcon="ion ion-person-add"
-              dataLink="/clients"
-            />
-            <StatBox
-              dataName={`${formatDate(
-                dataDashboard.reportDate,
-                "MONTH"
-              )} Upcoming Bookings`}
-              dataValue={dataDashboard.totalUpcomingBookings}
-              dataColor={"bg-info"}
-              dataIcon="ion ion-cash"
-              dataLink="/bookings"
-            />
-            <StatBox
-              dataName={`${formatDate(
-                dataDashboard.reportDate,
-                "MONTH"
-              )} Confirmed Bookings`}
-              dataValue={dataDashboard.totalConfirmedBookings}
-              dataColor="bg-success"
-              dataIcon="ion ion-stats-bars"
-              dataLink="/bookings"
-            />
-            <StatBox
-              dataName={`${formatDate(
-                dataDashboard.reportDate,
-                "MONTH"
-              )} Canceled Bookings`}
-              dataValue={dataDashboard.totalCanceledBookings}
-              dataColor="bg-danger"
-              dataIcon="ion ion-stats-bars"
-              dataLink="/bookings"
-            />
-          </div>
-
+          {!apiData && <p>Loading...</p>}
+          {apiData && (
+            <div className="row">
+              <StatBox
+                dataName={`${formatDate(
+                  apiData.reportDate,
+                  "MONTH"
+                )} New Clients`}
+                dataValue={apiData.newClients}
+                dataColor="bg-warning"
+                dataIcon="ion ion-person-add"
+                dataLink="/clients"
+              />
+              <StatBox
+                dataName={`${formatDate(
+                  apiData.reportDate,
+                  "MONTH"
+                )} Upcoming Bookings`}
+                dataValue={apiData.totalUpcomingBookings}
+                dataColor={"bg-info"}
+                dataIcon="ion ion-cash"
+                dataLink="/bookings"
+              />
+              <StatBox
+                dataName={`${formatDate(
+                  apiData.reportDate,
+                  "MONTH"
+                )} Confirmed Bookings`}
+                dataValue={apiData.totalConfirmedBookings}
+                dataColor="bg-success"
+                dataIcon="ion ion-stats-bars"
+                dataLink="/bookings"
+              />
+              <StatBox
+                dataName={`${formatDate(
+                  apiData.reportDate,
+                  "MONTH"
+                )} Canceled Bookings`}
+                dataValue={apiData.totalCanceledBookings}
+                dataColor="bg-danger"
+                dataIcon="ion ion-stats-bars"
+                dataLink="/bookings"
+              />
+            </div>
+          )}
           <div className="card">
             <div className="card-header border-transparent">
               <h3 className="card-title">
-                Next Bookings {formatDate(dataDashboard.reportDate, "MONTH")}
+                Next Bookings {formatDate(new Date(), "MONTH")}
               </h3>
             </div>
             <div className="card-body p-0">
-              <TableUtil
-                tableHeaderData={dashBoardTableHeaderData}
-                tableBodyData={dashBoardTableBodyData}
-              />
+              {!apiData && <p>Loading...</p>}
+              {apiData && (
+                <TableUtil
+                  tableHeaderData={dashBoardTableHeaderData}
+                  tableBodyData={newFunction(apiData.bookingList)}
+                />
+              )}
             </div>
             <div className="card-footer">
               <a href="/search" className="btn btn-sm btn-info float-left">
@@ -140,3 +104,26 @@ function DashboardHome() {
 }
 
 export default DashboardHome;
+
+function newFunction(nextBookings) {
+  return nextBookings.map((item) => (
+    <tr key={item.id}>
+      <td>{formatDate(item.bookingDate)}</td>
+      <td>{formatDate(item.bookingDate, "TIME")}</td>
+      <td>
+        <span
+          className={`badge badge-${handleBookingStatusColor(
+            item.bookingStatus
+          )}`}
+        >
+          {item.bookingStatus}
+        </span>
+      </td>
+      <td>
+        <a href={`/clients/${item.client.clientId}`}>
+          {item.client.firstName} {item.client.lastName}
+        </a>
+      </td>
+    </tr>
+  ));
+}
