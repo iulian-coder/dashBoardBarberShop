@@ -1,7 +1,7 @@
 import axios from "../../api/axios";
 import React from "react";
 import apiRoute from "../../api/apiRoute";
-import formatDate from "../../util/formatDate";
+import {formatDate} from "../components/tableData";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 

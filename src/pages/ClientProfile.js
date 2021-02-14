@@ -7,8 +7,6 @@ import UpcomingBookingsProfile from "./components/UpcomingBookingsProfile";
 import { useHistory } from "react-router-dom";
 import FormProfileAddBooking from "./components/AddBooking";
 import TableUtil from "./components/TableUtil";
-import handleBookingStatusColor from "../util/bookingStatusColor";
-import formatDate from "../util/formatDate";
 import { toast } from "react-toastify";
 
 function ClientProfile() {
@@ -39,26 +37,13 @@ function ClientProfile() {
     fetchData();
   }, [id, history]);
 
-  const columnsData = ["Date", "Time", "Status", "Created", "Id"];
-  const rowsData = clientDataBookings.map((item) => (
-    <tr key={item.id}>
-      <td>{formatDate(item.bookingDate)}</td>
-      <td>{formatDate(item.bookingDate, "TIME")}</td>
-      <td>
-        <span
-          className={`badge badge-${handleBookingStatusColor(
-            item.bookingStatus
-          )}`}
-        >
-          {item.bookingStatus}
-        </span>
-      </td>
-      <td>
-        {formatDate(item.createdDate)} | {formatDate(item.createdDate, "TIME")}
-      </td>
-      <td>{item.id}</td>
-    </tr>
-  ));
+  const columnsData = {
+    bookingDate: "Date",
+    bookingTime: "Time",
+    status: "Status",
+    createdDate: "Created",
+    id: "Id",
+  };
 
   const filterBookingsData = (option) => {
     return clientDataBookings.filter((items) => items.bookingStatus === option);
@@ -176,7 +161,7 @@ function ClientProfile() {
                     <div className="active tab-pane" id="activity">
                       <TableUtil
                         tableHeaderData={columnsData}
-                        tableBodyData={rowsData}
+                        tableBodyData={clientDataBookings}
                       />
                       <div>
                         <p>

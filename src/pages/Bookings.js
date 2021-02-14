@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import apiRoute from "../api/apiRoute";
-import handleBookingStatusColor from "../util/bookingStatusColor";
 import TableUtil from "./components/TableUtil";
-import formatDate from "../util/formatDate";
 import useQuery from "../api/useQuery";
 
 function Bookings() {
@@ -17,15 +15,15 @@ function Bookings() {
     setPageNumber(pageNumber + dataPage);
   };
 
-  const bookingsTableHeaderData = [
-    "Date",
-    "Time",
-    "Client",
-    "Status",
-    "Created",
-    "Updated",
-    "Id",
-  ];
+  const bookingsTableHeaderData = {
+    bookingDate: "Date",
+    bookingTime: "Time",
+    client: "Client",
+    status: "Status",
+    createdDate: "Created",
+    updatedDate: "Updated",
+    id: "Id",
+  };
 
   return (
     <div className="content-wrapper">
@@ -58,7 +56,7 @@ function Bookings() {
                   {apiData && (
                     <TableUtil
                       tableHeaderData={bookingsTableHeaderData}
-                      tableBodyData={newFunction(apiData)}
+                      tableBodyData={apiData}
                       tableFootData={newFunction_1(
                         apiData,
                         pageNumber,
@@ -110,31 +108,4 @@ function newFunction_1(bookingsData, pageNumber, handlePageNo) {
       </td>
     </tr>
   ) : null;
-}
-
-function newFunction(bookingsData) {
-  return bookingsData.map((item) => (
-    <tr key={item.id}>
-      <td>{formatDate(item.bookingDate)}</td>
-      <td>{formatDate(item.bookingDate, "TIME")}</td>
-      <td>
-        <a href={`/clients/${item.client.clientId}`}>
-          {item.client.firstName} {item.client.lastName}
-        </a>
-      </td>
-      <td>
-        {" "}
-        <span
-          className={`badge badge-${handleBookingStatusColor(
-            item.bookingStatus
-          )}`}
-        >
-          {item.bookingStatus}
-        </span>
-      </td>
-      <td>{formatDate(item.createdDate, "UTC")}</td>
-      <td>{formatDate(item.updatedDate, "UTC")}</td>
-      <td>{item.id}</td>
-    </tr>
-  ));
 }
