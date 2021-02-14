@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 
 function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
   const history = useHistory();
-
   const handleBookingStatus = (bookingId, status) => {
     let bookingData = {
       id: bookingId,
@@ -28,6 +27,7 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
   };
 
   return (
+    
     <div className="timeline timeline-inverse">
       {clientDataUpcomingBookings.map((item) => (
         <div key={item.id}>
