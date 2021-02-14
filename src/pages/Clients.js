@@ -10,14 +10,16 @@ function Clients() {
     url: apiRoute.clients + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
   });
 
-  const clientsTableHeaderData = [
-    "First Name",
-    "Last Name",
-    "E-mail",
-    "Phone",
-    "Id",
-    "Action",
-  ];
+  const clientsTableHeaderData = {
+    firstName:"First Name",
+    lastName:"Last Name",
+    email:"E-mail",
+    phoneNo:"Phone",
+    clientId:"Id",
+    createdDate: "Created",
+    updatedDate: "Updated",
+    action:"Action",
+  };
 
   const handlePageNo = (dataPage) => {
     setPageNumber(pageNumber + dataPage);
@@ -51,21 +53,7 @@ function Clients() {
             {apiData && (
               <TableUtil
                 tableHeaderData={clientsTableHeaderData}
-                tableBodyData={apiData.map((item) => (
-                  <tr key={item.clientId}>
-                    <td>{item.firstName}</td>
-                    <td>{item.lastName}</td>
-                    <td>{item.email}</td>
-                    <td>+{item.phoneNo}</td>
-                    <td>{item.clientId}</td>
-                    <td align="center">
-                      <a href={`/clients/${item.clientId}`}>
-                        {" "}
-                        <i className="fas fa-ellipsis-h" />
-                      </a>
-                    </td>
-                  </tr>
-                ))}
+                tableBodyData={apiData}
                 tableFootData={newFunction(apiData, pageNumber, handlePageNo)}
               />
             )}

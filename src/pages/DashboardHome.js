@@ -1,8 +1,7 @@
 import React from "react";
 import apiRoute from "../api/apiRoute";
-import handleBookingStatusColor from "../util/bookingStatusColor";
 import TableUtil from "./components/TableUtil";
-import formatDate from "../util/formatDate";
+
 import StatBox from "./components/StatBox";
 import useQuery from "../api/useQuery";
 
@@ -10,7 +9,12 @@ function DashboardHome() {
   const { apiData } = useQuery({
     url: apiRoute.dashboard,
   });
-  const dashBoardTableHeaderData = ["Date", "Time", "Status", "Client"];
+  const dashBoardTableHeaderData = {
+    bookingDate: "Date",
+    bookingTime: "Time",
+    status: "Status",
+    client: "Client",
+  };
 
   return (
     <div className="content-wrapper">
@@ -29,40 +33,32 @@ function DashboardHome() {
           {apiData && (
             <div className="row">
               <StatBox
-                dataName={`${formatDate(
-                  apiData.reportDate,
-                  "MONTH"
-                )} New Clients`}
+                dataName="New Clients"
+                reportDate={apiData.reportDate}
                 dataValue={apiData.newClients}
                 dataColor="bg-warning"
                 dataIcon="ion ion-person-add"
                 dataLink="/clients"
               />
               <StatBox
-                dataName={`${formatDate(
-                  apiData.reportDate,
-                  "MONTH"
-                )} Upcoming Bookings`}
+                dataName="Upcoming Bookings"
+                reportDate={apiData.reportDate}
                 dataValue={apiData.totalUpcomingBookings}
                 dataColor={"bg-info"}
                 dataIcon="ion ion-cash"
                 dataLink="/bookings"
               />
               <StatBox
-                dataName={`${formatDate(
-                  apiData.reportDate,
-                  "MONTH"
-                )} Confirmed Bookings`}
+                dataName="Confirmed Bookings"
+                reportDate={apiData.reportDate}
                 dataValue={apiData.totalConfirmedBookings}
                 dataColor="bg-success"
                 dataIcon="ion ion-stats-bars"
                 dataLink="/bookings"
               />
               <StatBox
-                dataName={`${formatDate(
-                  apiData.reportDate,
-                  "MONTH"
-                )} Canceled Bookings`}
+                dataName="Canceled Bookings"
+                reportDate={apiData.reportDate}
                 dataValue={apiData.totalCanceledBookings}
                 dataColor="bg-danger"
                 dataIcon="ion ion-stats-bars"
@@ -71,20 +67,19 @@ function DashboardHome() {
             </div>
           )}
           <div className="card">
+            {!apiData && <p>Loading...</p>}
             <div className="card-header border-transparent">
-              <h3 className="card-title">
-                Next Bookings {formatDate(new Date(), "MONTH")}
-              </h3>
+              <h3 className="card-title">Next Bookings</h3>
             </div>
-            <div className="card-body p-0">
-              {!apiData && <p>Loading...</p>}
-              {apiData && (
+            {apiData && (
+              <div className="card-body p-0">
                 <TableUtil
                   tableHeaderData={dashBoardTableHeaderData}
-                  tableBodyData={newFunction(apiData.bookingList)}
+                  tableBodyData={apiData.bookingList}
                 />
-              )}
-            </div>
+              </div>
+            )}
+
             <div className="card-footer">
               <a href="/search" className="btn btn-sm btn-info float-left">
                 Add New Booking
@@ -104,26 +99,3 @@ function DashboardHome() {
 }
 
 export default DashboardHome;
-
-function newFunction(nextBookings) {
-  return nextBookings.map((item) => (
-    <tr key={item.id}>
-      <td>{formatDate(item.bookingDate)}</td>
-      <td>{formatDate(item.bookingDate, "TIME")}</td>
-      <td>
-        <span
-          className={`badge badge-${handleBookingStatusColor(
-            item.bookingStatus
-          )}`}
-        >
-          {item.bookingStatus}
-        </span>
-      </td>
-      <td>
-        <a href={`/clients/${item.client.clientId}`}>
-          {item.client.firstName} {item.client.lastName}
-        </a>
-      </td>
-    </tr>
-  ));
-}
