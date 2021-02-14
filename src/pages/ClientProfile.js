@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
@@ -8,34 +8,12 @@ import { useHistory } from "react-router-dom";
 import FormProfileAddBooking from "./components/AddBooking";
 import TableUtil from "./components/TableUtil";
 import { toast } from "react-toastify";
+import useQuery from "../api/useQuery";
 
 function ClientProfile() {
   const { id } = useParams();
-  const [clientData, setClientData] = useState([]);
-  const [clientDataBookings, setClientDataBookings] = useState([]);
+  const { apiData } = useQuery({ url: apiRoute.clients + `/${id}` });
   const history = useHistory();
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        await axios.get(apiRoute.clients + `/${id}`).then(({ data }) => {
-          setClientData(data);
-        });
-
-        await axios
-          .get(apiRoute.bookings + `/history/${id}`)
-          .then(({ data }) => {
-            setClientDataBookings(data);
-          });
-      } catch (error) {
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
-      }
-    }
-    fetchData();
-  }, [id, history]);
 
   const columnsData = {
     bookingDate: "Date",
@@ -45,12 +23,8 @@ function ClientProfile() {
     id: "Id",
   };
 
-  const filterBookingsData = (option) => {
-    return clientDataBookings.filter((items) => items.bookingStatus === option);
-  };
-
-  const handleDeleteClient = () => {
-    deleteClient(clientData.clientId)
+  const handleDeleteClient = (clientId) => {
+    deleteClient(clientId)
       .then(() => {
         toast.success("Client deleted");
         history.push("/clients");
@@ -86,32 +60,35 @@ function ClientProfile() {
           <div className="row">
             <div className="col-md-3">
               <div className="card card-primary card-outline">
-                <div className="card-body box-profile">
-                  <div className="text-center">
-                    <img
-                      className="profile-user-img img-fluid img-circle"
-                      src="../../dist/img/avatar5.png"
-                      alt="Userprofile"
-                    />
+                {!apiData && <p>Loading...</p>}
+                {apiData && (
+                  <div className="card-body box-profile">
+                    <div className="text-center">
+                      <img
+                        className="profile-user-img img-fluid img-circle"
+                        src="../../dist/img/avatar5.png"
+                        alt="Userprofile"
+                      />
+                    </div>
+                    <h3 className="profile-username text-center">
+                      {apiData.firstName} - {apiData.lastName}
+                    </h3>
+                    <ul className="list-group list-group-unbordered mb-3">
+                      <li className="list-group-item">
+                        <b>E-mail</b> {apiData.email}
+                      </li>
+                      <li className="list-group-item">
+                        <b>Phone</b> +{apiData.phoneNo}
+                      </li>
+                    </ul>
+                    <button
+                      onClick={() => handleDeleteClient(apiData.clientId)}
+                      className="btn btn-danger btn-block"
+                    >
+                      Delete
+                    </button>
                   </div>
-                  <h3 className="profile-username text-center">
-                    {clientData.firstName} - {clientData.lastName}
-                  </h3>
-                  <ul className="list-group list-group-unbordered mb-3">
-                    <li className="list-group-item">
-                      <b>E-mail</b> {clientData.email}
-                    </li>
-                    <li className="list-group-item">
-                      <b>Phone</b> +{clientData.phoneNo}
-                    </li>
-                  </ul>
-                  <button
-                    onClick={handleDeleteClient}
-                    className="btn btn-danger btn-block"
-                  >
-                    Delete
-                  </button>
-                </div>
+                )}
               </div>
             </div>
             <div className="col-md-9">
@@ -156,36 +133,53 @@ function ClientProfile() {
                     </li>
                   </ul>
                 </div>
-                <div className="card-body">
-                  <div className="tab-content">
-                    <div className="active tab-pane" id="activity">
-                      <TableUtil
-                        tableHeaderData={columnsData}
-                        tableBodyData={clientDataBookings}
-                      />
-                      <div>
-                        <p>
-                          Stats: {filterBookingsData("CONFIRM").length} Confirm
-                          | {filterBookingsData("UPCOMING").length} Upcoming |{" "}
-                          {filterBookingsData("CANCEL").length} Cancel
-                        </p>
+                {!apiData && <p>Loading ...</p>}
+                {apiData && (
+                  <div className="card-body">
+                    <div className="tab-content">
+                      <div className="active tab-pane" id="activity">
+                        <TableUtil
+                          tableHeaderData={columnsData}
+                          tableBodyData={apiData.bookingList}
+                        />
+                        <div>
+                          <p>
+                            Stats:{" "}
+                            {
+                              filterBookings(apiData.bookingList, "CONFIRM")
+                                .length
+                            }{" "}
+                            Confirm |{" "}
+                            {
+                              filterBookings(apiData.bookingList, "UPCOMING")
+                                .length
+                            }{" "}
+                            Upcoming |{" "}
+                            {
+                              filterBookings(apiData.bookingList, "CANCEL")
+                                .length
+                            }{" "}
+                            Cancel
+                          </p>
+                        </div>
+                      </div>
+                      <div className="tab-pane" id="upcoming-bookings">
+                        <UpcomingBookingsProfile
+                          clientDataUpcomingBookings={filterBookings(
+                            apiData.bookingList,
+                            "UPCOMING"
+                          )}
+                        />
+                      </div>
+                      <div className="tab-pane" id="modify-profile">
+                        <FormProfileModify clientId={id} />
+                      </div>
+                      <div className="tab-pane" id="add-booking">
+                        <FormProfileAddBooking clientId={id} />
                       </div>
                     </div>
-                    <div className="tab-pane" id="upcoming-bookings">
-                      <UpcomingBookingsProfile
-                        clientDataUpcomingBookings={filterBookingsData(
-                          "UPCOMING"
-                        )}
-                      />
-                    </div>
-                    <div className="tab-pane" id="modify-profile">
-                      <FormProfileModify clientId={id} />
-                    </div>
-                    <div className="tab-pane" id="add-booking">
-                      <FormProfileAddBooking clientId={id} />
-                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -202,4 +196,10 @@ async function deleteClient(dataId) {
     data: { clientId: dataId },
   });
   return dataResponse.data;
+}
+
+function filterBookings(data, option) {
+  const result = data.filter((item) => item.bookingStatus === option);
+
+  return result;
 }
