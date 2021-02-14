@@ -12,9 +12,24 @@ function TableUtil({ tableHeaderData, tableBodyData, tableFootData }) {
           </tr>
         </thead>
         <tbody>{tableBodyData}</tbody>
-        <tfoot>
-          {tableFootData}
-        </tfoot>
+        {/* <tbody>
+          {tableBodyData.map((item) => (
+            <tr key={item.clientId}>
+              <td>{item.firstName}</td>
+              <td>{item.lastName}</td>
+              <td>{item.email}</td>
+              <td>+{item.phoneNo}</td>
+              <td>{item.clientId}</td>
+              <td align="center">
+                <a href={`/clients/${item.clientId}`}>
+                  {" "}
+                  <i className="fas fa-ellipsis-h" />
+                </a>
+              </td>
+            </tr>
+          ))}
+        </tbody> */}
+        <tfoot>{tableFootData}</tfoot>
       </table>
     </div>
   );
