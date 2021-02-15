@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import apiRoute from "../api/apiRoute";
 import TableUtil from "./components/TableUtil";
 import useQuery from "../api/useQuery";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function Clients() {
   const [pageNumber, setPageNumber] = useState(0);
@@ -11,14 +12,14 @@ function Clients() {
   });
 
   const clientsTableHeaderData = {
-    firstName:"First Name",
-    lastName:"Last Name",
-    email:"E-mail",
-    phoneNo:"Phone",
-    clientId:"Id",
+    firstName: "First Name",
+    lastName: "Last Name",
+    email: "E-mail",
+    phoneNo: "Phone",
+    clientId: "Id",
     createdDate: "Created",
     updatedDate: "Updated",
-    action:"Action",
+    action: "Action",
   };
 
 
@@ -50,7 +51,7 @@ function Clients() {
             <h3 className="card-title">Clients</h3>
           </div>
           <div className="card-body">
-            {!apiData && <p>Loading...</p>}
+            {!apiData && LoadingSpinner()}
             {apiData && (
               <TableUtil
                 tableHeaderData={clientsTableHeaderData}

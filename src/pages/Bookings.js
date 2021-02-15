@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import apiRoute from "../api/apiRoute";
 import TableUtil from "./components/TableUtil";
 import useQuery from "../api/useQuery";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function Bookings() {
   const [pageNumber, setPageNumber] = useState(0);
@@ -52,7 +53,7 @@ function Bookings() {
                   <h3 className="card-title">Bookings</h3>
                 </div>
                 <div className="card-body">
-                  {!apiData && <p>Loading...</p>}
+                  {!apiData && LoadingSpinner()}
                   {apiData && (
                     <TableUtil
                       tableHeaderData={bookingsTableHeaderData}
