@@ -9,6 +9,7 @@ import FormProfileAddBooking from "./components/AddBooking";
 import TableUtil from "./components/TableUtil";
 import { toast } from "react-toastify";
 import useQuery from "../api/useQuery";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function ClientProfile() {
   const { id } = useParams();
@@ -60,14 +61,14 @@ function ClientProfile() {
           <div className="row">
             <div className="col-md-3">
               <div className="card card-primary card-outline">
-                {!apiData && <p>Loading...</p>}
+                {!apiData && LoadingSpinner()}
                 {apiData && (
                   <div className="card-body box-profile">
                     <div className="text-center">
                       <img
                         className="profile-user-img img-fluid img-circle"
                         src="../../dist/img/avatar5.png"
-                        alt="Userprofile"
+                        alt="User-profile"
                       />
                     </div>
                     <h3 className="profile-username text-center">
@@ -133,7 +134,7 @@ function ClientProfile() {
                     </li>
                   </ul>
                 </div>
-                {!apiData && <p>Loading ...</p>}
+                {!apiData && LoadingSpinner()}
                 {apiData && (
                   <div className="card-body">
                     <div className="tab-content">
