@@ -22,26 +22,12 @@ function App() {
         <Menu />
         <ToastContainer />
         <Switch>
-          <Route exact path="/clients">
-            <Clients />
-          </Route>
-          <Route exact path="/clients/new-client">
-            <AddClient />
-          </Route>
-          <Route
-            exact
-            path="/clients/:id"
-            render={(id) => <ClientProfile id={id.match.params.id} />}
-          />
-          <Route exact path="/bookings">
-            <Bookings />
-          </Route>
-          <Route exact path="/search">
-            <Search />
-          </Route>
-          <Route exact path="/">
-            <DashboardHome />
-          </Route>
+          <Route exact path="/clients" component={Clients} />
+          <Route exact path="/clients/new-client" component={AddClient} />
+          <Route exact path="/clients/:id/" component={ClientProfile} />
+          <Route exact path="/bookings" component={Bookings} />
+          <Route exact path="/search" component={Search} />
+          <Route exact path="/" component={DashboardHome} />
           <Route exact path="/error" component={PageError} />
           <Route component={Page404} />
         </Switch>
