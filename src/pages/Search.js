@@ -3,6 +3,7 @@ import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import apiRoute from "../api/apiRoute";
 import { useHistory } from "react-router-dom";
 import useQuery from "../api/useQuery";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function Search() {
   const history = useHistory();
@@ -20,7 +21,7 @@ function Search() {
           <h2 className="text-center display-4">Search</h2>
           <div className="row">
             <div className="col-md-8 offset-md-2">
-              {!apiData && <p>Loading...</p>}
+              {!apiData && LoadingSpinner()}
               {apiData && (
                 <ReactSearchAutocomplete
                   items={apiData}

@@ -29,6 +29,11 @@ function Header() {
             Search
           </a>
         </li>
+        <li className="nav-item d-none d-sm-inline-block">
+          <a href="/login" className="nav-link">
+            Login
+          </a>
+        </li>
       </ul>
     </nav>
   );

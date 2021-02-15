@@ -4,6 +4,7 @@ import TableUtil from "./components/TableUtil";
 
 import StatBox from "./components/StatBox";
 import useQuery from "../api/useQuery";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function DashboardHome() {
   const { apiData } = useQuery({
@@ -29,7 +30,7 @@ function DashboardHome() {
       </div>
       <section className="content">
         <div className="container-fluid">
-          {!apiData && <p>Loading...</p>}
+          {!apiData && LoadingSpinner()}
           {apiData && (
             <div className="row">
               <StatBox
@@ -67,10 +68,10 @@ function DashboardHome() {
             </div>
           )}
           <div className="card">
-            {!apiData && <p>Loading...</p>}
             <div className="card-header border-transparent">
               <h3 className="card-title">Next Bookings</h3>
             </div>
+            {!apiData && LoadingSpinner()}
             {apiData && (
               <div className="card-body p-0">
                 <TableUtil
