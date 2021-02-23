@@ -1,7 +1,7 @@
-import axios from "../../api/axios";
 import React from "react";
 import apiRoute from "../../api/apiRoute";
-import {formatDate} from "../components/tableData";
+import { UsePut } from "../../api/apiUtil.js";
+import { formatDate } from "../components/tableData";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -12,7 +12,7 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
       id: bookingId,
       status: status,
     };
-    changeBookingStatus(bookingData)
+    UsePut(apiRoute.bookings, bookingData)
       .then((res) => {
         localStorage.setItem("message", `Booking ID:${res.id} updated`);
         history.go(0);
@@ -27,7 +27,6 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
   };
 
   return (
-    
     <div className="timeline timeline-inverse">
       {clientDataUpcomingBookings.map((item) => (
         <div key={item.id}>
@@ -70,8 +69,3 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
 }
 
 export default UpcomingBookingsProfile;
-
-async function changeBookingStatus(data) {
-  const responseData = await axios.put(apiRoute.bookings, data);
-  return responseData.data;
-}

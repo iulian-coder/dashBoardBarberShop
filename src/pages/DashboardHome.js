@@ -3,11 +3,11 @@ import apiRoute from "../api/apiRoute";
 import TableUtil from "./components/TableUtil";
 
 import StatBox from "./components/StatBox";
-import useQuery from "../api/useQuery";
-import LoadingSpinner from "./components/LoadingSpinner";
+import useRequest from "../api/apiUtil.js";
+import LoadingSpinner from "./common/LoadingSpinner";
 
 function DashboardHome() {
-  const { apiData } = useQuery({
+  const { apiData } = useRequest({
     url: apiRoute.dashboard,
   });
   const dashBoardTableHeaderData = {

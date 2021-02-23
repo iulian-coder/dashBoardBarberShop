@@ -1,12 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+
 import { toast } from "react-toastify";
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from "../constants/index";
 
 function Login() {
   const { register, handleSubmit } = useForm();
-  const location = useLocation();
 
   const onSubmit = (data) => console.log(data);
 
@@ -20,7 +19,7 @@ function Login() {
       <div>
         <div className="card card-outline card-primary">
           <div className="card-header text-center">
-            <a href="../../index2.html" className="h1">
+            <a href="/" className="h1">
               <b>Administration </b> Board
             </a>
           </div>

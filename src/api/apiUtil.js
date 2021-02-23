@@ -1,19 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
 import { useHistory } from "react-router-dom";
-import { ACCESS_TOKEN } from "../constants";
 
-const useQuery = ({ url }) => {
+const useRequest = ({ url }) => {
   const [statusCode, setStatusCode] = useState();
   const [apiData, setApiData] = useState();
   const history = useHistory();
 
-  const token = localStorage.getItem(ACCESS_TOKEN);
-
   useEffect(() => {
     (async () => {
       await axios
-        .get(url, { headers: { Authorization: `Bearer ${token}` } })
+        .get(url)
         .then(({ status, data }) => {
           setStatusCode(status);
           setApiData(data);
@@ -25,6 +22,7 @@ const useQuery = ({ url }) => {
               state: { detail: error.message },
             });
           } else if (error.response.status === 401) {
+            localStorage.setItem("message", "Login for access!");
             history.push("/login");
           } else {
             history.push({
@@ -34,9 +32,26 @@ const useQuery = ({ url }) => {
           }
         });
     })();
-  }, [url, history, token]);
+  }, [url, history]);
 
   return { apiData, statusCode };
 };
 
-export default useQuery;
+export default useRequest;
+
+export async function UsePost(url, params) {
+  const dataResponse = await axios.post(url, params);
+  return dataResponse.data;
+}
+
+export async function UsePut(url, params) {
+  const dataResponse = await axios.put(url, params);
+  return dataResponse.data;
+}
+
+export async function UseDelete(url, params) {
+  const dataResponse = await axios.delete(url, {
+    data: params,
+  });
+  return dataResponse.data;
+}

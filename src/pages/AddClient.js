@@ -1,6 +1,6 @@
 import React from "react";
-import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
+import { UsePost } from "../api/apiUtil";
 import { useHistory } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ function AddClient() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    addClient(data)
+    UsePost(apiRoute.clients, data)
       .then((res) => {
         toast.success(`Add Client ${res.firstName} !`);
         history.push(`/clients/${res.clientId}`);
@@ -152,9 +152,3 @@ function AddClient() {
 }
 
 export default AddClient;
-
-async function addClient(data) {
-  const response = await axios.post(apiRoute.clients, data);
-
-  return response.data;
-}

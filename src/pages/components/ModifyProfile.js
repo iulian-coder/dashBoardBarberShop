@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "../../api/axios";
+import { UsePut } from "../../api/apiUtil";
 import apiRoute from "../../api/apiRoute";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -39,7 +40,8 @@ function FormProfileModify({ clientId }) {
       email: formData.email,
       phoneNo: formData.phoneNo,
     };
-    updateClient(updateData)
+
+    UsePut(apiRoute.clients, updateData)
       .then((res) => {
         localStorage.setItem(
           "message",
@@ -190,7 +192,3 @@ function FormProfileModify({ clientId }) {
 
 export default FormProfileModify;
 
-async function updateClient(updateData) {
-  const dataResponse = await axios.put(apiRoute.clients, updateData);
-  return dataResponse.data;
-}
