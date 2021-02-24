@@ -1,10 +1,10 @@
 const apiRoute = {
-  clients: "/clients",
-  bookings: "/bookings",
-  dashboard: "/dashboard",
+  clients: "/api/v1/clients",
+  bookings: "/api/v1/bookings",
+  dashboard: "/api/v1/dashboard",
+  signup: "/auth/signup",
+  login: "/auth/login",
   user: "/user",
-  userLogin: "/auth/login",
-  userSignup: "/auth/signup",
 };
 
 export default apiRoute;

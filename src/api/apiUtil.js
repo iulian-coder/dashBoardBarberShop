@@ -22,7 +22,10 @@ const useRequest = ({ url }) => {
               state: { detail: error.message },
             });
           } else if (error.response.status === 401) {
-            localStorage.setItem("message", "Login for access!");
+            localStorage.setItem(
+              "message",
+              "Hello, you will need to login first!"
+            );
             history.push("/login");
           } else {
             history.push({
@@ -39,17 +42,17 @@ const useRequest = ({ url }) => {
 
 export default useRequest;
 
-export async function UsePost(url, params) {
+export async function UsePost({url, params}) {
   const dataResponse = await axios.post(url, params);
   return dataResponse.data;
 }
 
-export async function UsePut(url, params) {
+export async function UsePut({url, params}) {
   const dataResponse = await axios.put(url, params);
   return dataResponse.data;
 }
 
-export async function UseDelete(url, params) {
+export async function UseDelete({url, params}) {
   const dataResponse = await axios.delete(url, {
     data: params,
   });

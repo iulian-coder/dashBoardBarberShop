@@ -11,7 +11,8 @@ function AddClient() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    UsePost(apiRoute.clients, data)
+    // TODO id of User
+    UsePost({ url: apiRoute.clients, params: data })
       .then((res) => {
         toast.success(`Add Client ${res.firstName} !`);
         history.push(`/clients/${res.clientId}`);
@@ -92,7 +93,7 @@ function AddClient() {
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="exampleInputemail">Email</label>
+              <label htmlFor="exampleInputemail">Email (optional)</label>
               <input
                 type="email"
                 className="form-control"
@@ -100,7 +101,7 @@ function AddClient() {
                 placeholder="Email"
                 name="email"
                 ref={register({
-                  required: { message: "This field is required", value: true },
+                  required: { message: "This field is required", value: false },
                 })}
               />
               {errors.email && (

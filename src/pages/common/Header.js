@@ -35,6 +35,11 @@ function Header() {
           </a>
         </li>
         <li className="nav-item d-none d-sm-inline-block">
+          <a href="/signup" className="nav-link">
+            Signup
+          </a>
+        </li>
+        <li className="nav-item d-none d-sm-inline-block">
           <a href="/logout" className="nav-link">
             Logout
           </a>

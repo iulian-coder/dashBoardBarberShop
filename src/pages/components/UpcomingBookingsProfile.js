@@ -12,7 +12,7 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
       id: bookingId,
       status: status,
     };
-    UsePut(apiRoute.bookings, bookingData)
+    UsePut({ url: apiRoute.bookings, params: bookingData })
       .then((res) => {
         localStorage.setItem("message", `Booking ID:${res.id} updated`);
         history.go(0);

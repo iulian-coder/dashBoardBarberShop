@@ -41,7 +41,7 @@ function FormProfileModify({ clientId }) {
       phoneNo: formData.phoneNo,
     };
 
-    UsePut(apiRoute.clients, updateData)
+    UsePut({ url: apiRoute.clients, params: updateData })
       .then((res) => {
         localStorage.setItem(
           "message",
@@ -191,4 +191,3 @@ function FormProfileModify({ clientId }) {
 }
 
 export default FormProfileModify;
-

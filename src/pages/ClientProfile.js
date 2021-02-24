@@ -26,7 +26,7 @@ function ClientProfile() {
 
   const handleDeleteClient = (clientId) => {
     let dataToDelete = { clientId: clientId };
-    UseDelete(apiRoute.clients, dataToDelete)
+    UseDelete({ url: apiRoute.clients, params: dataToDelete })
       .then(() => {
         toast.success("Client deleted");
         history.push("/clients");
@@ -77,10 +77,10 @@ function ClientProfile() {
                     </h3>
                     <ul className="list-group list-group-unbordered mb-3">
                       <li className="list-group-item">
-                        <b>E-mail</b> {apiData.email}
+                        <b>E-mail:</b> {apiData.email ? apiData.email : "N/A"}
                       </li>
                       <li className="list-group-item">
-                        <b>Phone</b> +{apiData.phoneNo}
+                        <b>Phone:</b> +{apiData.phoneNo}
                       </li>
                     </ul>
                     <button

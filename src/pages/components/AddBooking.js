@@ -18,7 +18,7 @@ function FormProfileAddBooking({ clientId }) {
       bookingNotes: data.bookingNotes,
       sendSms: data.sendSms,
     };
-    UsePost(apiRoute.bookings, newBooking)
+    UsePost({ url: apiRoute.bookings, params: newBooking })
       .then((res) => {
         localStorage.setItem(
           "message",

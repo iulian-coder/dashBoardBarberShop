@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Login from "./user/Login";
 import OAuth2RedirectHandler from "./user/OAuth2RedirectHandler";
 import Logout from "./user/Logout";
+import Signup from "./user/Signup";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <ToastContainer />
         <Switch>
           <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/clients" component={Clients} />
           <Route exact path="/clients/new-client" component={AddClient} />

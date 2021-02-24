@@ -2,12 +2,26 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 import { toast } from "react-toastify";
-import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from "../constants/index";
+import apiRoute from "../api/apiRoute";
+import { UsePost } from "../api/apiUtil";
+import {
+  GOOGLE_AUTH_URL,
+  FACEBOOK_AUTH_URL,
+  ACCESS_TOKEN,
+} from "../constants/index";
+import { useHistory } from "react-router-dom";
 
 function Login() {
   const { register, handleSubmit } = useForm();
+  const history = useHistory();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    UsePost({ url: apiRoute.login, params: data }).then((res) => {
+      localStorage.setItem(ACCESS_TOKEN, res.accessToken);
+      toast.success("You're successfully logged in!");
+      history.push("/");
+    });
+  };
 
   // Shows notification
   if (localStorage.getItem("message")) {
