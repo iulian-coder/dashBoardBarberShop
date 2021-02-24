@@ -16,7 +16,7 @@ const useRequest = ({ url }) => {
           setApiData(data);
         })
         .catch((error) => {
-          if (error.response === undefined || error.response.status !== 401) {
+          if (error.response === undefined) {
             history.push({
               pathname: "/error",
               state: { detail: error.message },
@@ -42,17 +42,17 @@ const useRequest = ({ url }) => {
 
 export default useRequest;
 
-export async function UsePost({url, params}) {
+export async function UsePost({ url, params }) {
   const dataResponse = await axios.post(url, params);
   return dataResponse.data;
 }
 
-export async function UsePut({url, params}) {
+export async function UsePut({ url, params }) {
   const dataResponse = await axios.put(url, params);
   return dataResponse.data;
 }
 
-export async function UseDelete({url, params}) {
+export async function UseDelete({ url, params }) {
   const dataResponse = await axios.delete(url, {
     data: params,
   });

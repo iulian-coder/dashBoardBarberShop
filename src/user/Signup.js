@@ -9,17 +9,17 @@ import { useHistory } from "react-router-dom";
 function Signup() {
   const { register, handleSubmit } = useForm();
   const history = useHistory();
+
   const onSubmit = (data) => {
     UsePost({ url: apiRoute.signup, params: data })
       .then((res) => {
+        console.log(res);
         toast.success(res.message);
         history.push("/login");
       })
       .catch((error) => {
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        })
+        toast.error(error.response.data.message);
+        toast.error(error.response.data.details.join(" | "));
       });
   };
   return (
