@@ -136,7 +136,7 @@ function FormProfileModify({ clientId }) {
             id="inputEmail"
             placeholder="Email"
             ref={register({
-              required: { message: "This field is required", value: true },
+              required: { message: "This field is required", value: false },
             })}
           />
           {errors.email && (

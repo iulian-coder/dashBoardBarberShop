@@ -16,11 +16,18 @@ function Login() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    UsePost({ url: apiRoute.login, params: data }).then((res) => {
-      localStorage.setItem(ACCESS_TOKEN, res.accessToken);
-      toast.success("You're successfully logged in!");
-      history.push("/");
-    });
+    UsePost({ url: apiRoute.login, params: data })
+      .then((res) => {
+        localStorage.setItem(ACCESS_TOKEN, res.accessToken);
+        toast.success("You're successfully logged in!");
+        history.push("/");
+      })
+      .catch((error) => {
+        history.push({
+          pathname: "/error",
+          state: { detail: error.message },
+        });
+      });
   };
 
   // Shows notification
