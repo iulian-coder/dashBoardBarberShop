@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
 import { useHistory } from "react-router-dom";
+import { API_BASE_URL, ACCESS_TOKEN } from "../constants/index";
 
 const useRequest = ({ url }) => {
   const [statusCode, setStatusCode] = useState();
@@ -41,6 +42,13 @@ const useRequest = ({ url }) => {
 };
 
 export default useRequest;
+
+export function GetCurrentUser() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+  return axios.get(API_BASE_URL + "/user/me");
+}
 
 export async function UsePost({ url, params }) {
   const dataResponse = await axios.post(url, params);

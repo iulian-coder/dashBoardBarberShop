@@ -12,7 +12,7 @@ import {
 import { useHistory } from "react-router-dom";
 
 function Login() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
 
   const onSubmit = (data) => {
@@ -23,10 +23,14 @@ function Login() {
         history.push("/");
       })
       .catch((error) => {
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        if (error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          history.push({
+            pathname: "/error",
+            state: { detail: error.message },
+          });
+        }
       });
   };
 
@@ -53,8 +57,20 @@ function Login() {
                   type="email"
                   className="form-control"
                   placeholder="Email"
-                  ref={register}
+                  ref={register({
+                    required: {
+                      message: "This field is mandatory",
+                      value: true,
+                    },
+                    pattern: {
+                      message: "E-mail address",
+                      value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                    },
+                  })}
                 />
+                {errors.email && (
+                  <small className="text-danger">{errors.email.message}</small>
+                )}
                 <div className="input-group-append">
                   <div className="input-group-text">
                     <span className="fas fa-envelope" />
@@ -67,8 +83,18 @@ function Login() {
                   type="password"
                   className="form-control"
                   placeholder="Password"
-                  ref={register}
+                  ref={register({
+                    required: {
+                      message: "This filed is mandatory",
+                      value: true,
+                    },
+                  })}
                 />
+                {errors.password && (
+                  <small className="text-danger">
+                    {errors.password.message}
+                  </small>
+                )}
                 <div className="input-group-append">
                   <div className="input-group-text">
                     <span className="fas fa-lock" />

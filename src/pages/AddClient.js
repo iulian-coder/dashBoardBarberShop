@@ -102,6 +102,10 @@ function AddClient() {
                 name="email"
                 ref={register({
                   required: { message: "This field is required", value: false },
+                  pattern: {
+                    message: "E-mail address",
+                    value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                  },
                 })}
               />
               {errors.email && (

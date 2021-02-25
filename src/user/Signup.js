@@ -7,19 +7,25 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
 function Signup() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
 
   const onSubmit = (data) => {
     UsePost({ url: apiRoute.signup, params: data })
       .then((res) => {
-        console.log(res);
         toast.success(res.message);
         history.push("/login");
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
-        toast.error(error.response.data.details.join(" | "));
+        if (error.response.data.message) {
+          toast.error(error.response.data.message);
+          toast.error(error.response.data.details.join(" | "));
+        } else {
+          history.push({
+            pathname: "/error",
+            state: { detail: error.message },
+          });
+        }
       });
   };
   return (
@@ -40,8 +46,29 @@ function Signup() {
                   type="text"
                   className="form-control"
                   placeholder="Full name"
-                  ref={register}
+                  ref={register({
+                    required: {
+                      message: "This field is mandatory",
+                      value: true,
+                    },
+
+                    minLength: {
+                      message: "This field cannot be less then 3 characters",
+                      value: 3,
+                    },
+                    maxLength: {
+                      message: "This field cannot exceed 50 characters",
+                      value: 50,
+                    },
+                    pattern: {
+                      message: "Full name only",
+                      value: /^([\w]{3,})+\s+([\w\s]{3,})+$/i,
+                    },
+                  })}
                 />
+                {errors.name && (
+                  <small className="text-danger">{errors.name.message}</small>
+                )}
                 <div className="input-group-append">
                   <div className="input-group-text">
                     <span className="fas fa-user" />
@@ -54,8 +81,20 @@ function Signup() {
                   type="email"
                   className="form-control"
                   placeholder="Email"
-                  ref={register}
+                  ref={register({
+                    required: {
+                      message: "This field is mandatory",
+                      value: true,
+                    },
+                    pattern: {
+                      message: "E-mail address",
+                      value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                    },
+                  })}
                 />
+                {errors.email && (
+                  <small className="text-danger">{errors.email.message}</small>
+                )}
                 <div className="input-group-append">
                   <div className="input-group-text">
                     <span className="fas fa-envelope" />
@@ -68,8 +107,26 @@ function Signup() {
                   type="password"
                   className="form-control"
                   placeholder="Password"
-                  ref={register}
+                  ref={register({
+                    required: {
+                      message: "This filed is mandatory",
+                      value: true,
+                    },
+                    minLength: {
+                      message: "The password bust have more than 4 characters",
+                      value: 4,
+                    },
+                    maxLength: {
+                      message: "The password bust be less than 10 characters",
+                      value: 10,
+                    },
+                  })}
                 />
+                {errors.password && (
+                  <small className="text-danger">
+                    {errors.password.message}
+                  </small>
+                )}
                 <div className="input-group-append">
                   <div className="input-group-text">
                     <span className="fas fa-lock" />
