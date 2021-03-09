@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
 import { useHistory } from "react-router-dom";
-import { API_BASE_URL, ACCESS_TOKEN } from "../constants/index";
+import { API_BASE_URL } from "../constants/index";
 
 const useRequest = ({ url }) => {
   const [statusCode, setStatusCode] = useState();
@@ -17,6 +17,7 @@ const useRequest = ({ url }) => {
           setApiData(data);
         })
         .catch((error) => {
+          console.log("object");
           if (error.response === undefined) {
             history.push({
               pathname: "/error",
@@ -27,7 +28,7 @@ const useRequest = ({ url }) => {
               "message",
               "Hello, you will need to login first!"
             );
-            history.push("/login");
+            history.push({ pathname: "/login" });
           } else {
             history.push({
               pathname: "/error",
@@ -44,10 +45,8 @@ const useRequest = ({ url }) => {
 export default useRequest;
 
 export function GetCurrentUser() {
-  if (!localStorage.getItem(ACCESS_TOKEN)) {
-    return Promise.reject("No access token set.");
-  }
-  return axios.get(API_BASE_URL + "/user/me");
+  const dataResponse = axios.get(API_BASE_URL + "/user/me");
+  return dataResponse;
 }
 
 export async function UsePost({ url, params }) {

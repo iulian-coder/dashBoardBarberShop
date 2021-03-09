@@ -4,7 +4,7 @@ const apiRoute = {
   dashboard: "/api/v1/dashboard",
   signup: "/auth/signup",
   login: "/auth/login",
-  user: "/user",
+  user: "/user/me",
 };
 
 export default apiRoute;
