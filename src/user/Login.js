@@ -19,8 +19,7 @@ function Login() {
     UsePost({ url: apiRoute.login, params: data })
       .then((res) => {
         localStorage.setItem(ACCESS_TOKEN, res.accessToken);
-        toast.success("You're successfully logged in!");
-        history.push("/");
+        history.go(0);
       })
       .catch((error) => {
         if (error.response.data.message) {
@@ -34,7 +33,6 @@ function Login() {
       });
   };
 
-  
   return (
     <div className="hold-transition login-page">
       <div className="login-box">

@@ -2,7 +2,6 @@ import React from "react";
 import { useLocation } from "react-router";
 import queryString from "query-string";
 import { ACCESS_TOKEN } from "../constants/index";
-import { Redirect } from "react-router-dom";
 
 export default function OAuth2RedirectHandler() {
   const location = useLocation();
@@ -26,6 +25,23 @@ export default function OAuth2RedirectHandler() {
       </section>
     );
   } else {
-    return <Redirect to={{ pathname: "/error", state: { detail: error } }} />;
+    return (
+      <section className="content">
+        <div className="error-page">
+          <h3 className="headline text-success"> Unauthenticated</h3>
+          <div className="text-center">
+            <h3>Hey! You need to authenticated for using the app!</h3>
+            <h3>
+              You may go to <a href="/">login</a>
+            </h3>
+            {error && (
+              <h3 className="text-danger">
+                Error : Authentication via social media failed
+              </h3>
+            )}
+          </div>
+        </div>
+      </section>
+    );
   }
 }

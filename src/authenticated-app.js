@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import DashboardHome from "./pages/DashboardHome";
-import Header from "./pages/common/Header";
-import Menu from "./pages/common/Menu";
+import Header from "./pages/common/HeaderMenu";
+import Menu from "./pages/common/SidebarMenu";
 import { Switch, Route } from "react-router-dom";
 import Clients from "./pages/Clients";
 import ClientProfile from "./pages/ClientProfile";

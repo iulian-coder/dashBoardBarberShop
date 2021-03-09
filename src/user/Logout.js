@@ -1,7 +1,17 @@
+import React, { useState, useEffect } from "react";
 import { ACCESS_TOKEN } from "../constants";
+import { useHistory } from "react-router-dom";
 
 export default function Logout() {
+  const history = useHistory();
   localStorage.removeItem(ACCESS_TOKEN);
+  const [counter, setCounter] = useState(10);
+  useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter]);
+  setTimeout(() => {
+    history.go(0);
+  }, 10000);
   return (
     <section className="content">
       <div className="error-page">
@@ -9,7 +19,7 @@ export default function Logout() {
         <div className="text-center">
           <h3>Hey! You are safely logged out!</h3>
           <h3>
-            You may <a href="/">go to login</a>
+            You will be redirected in {counter} seconds to <a href="/">login</a>
           </h3>
         </div>
       </div>
