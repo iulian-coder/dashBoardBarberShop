@@ -11,7 +11,6 @@ function AddClient() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    // TODO id of User
     UsePost({ url: apiRoute.clients, params: data })
       .then((res) => {
         toast.success(`Add Client ${res.firstName} !`);

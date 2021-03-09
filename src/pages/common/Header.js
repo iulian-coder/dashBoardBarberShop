@@ -30,23 +30,8 @@ function Header() {
           </a>
         </li>
         <li className="nav-item d-none d-sm-inline-block">
-          <a href="/login" className="nav-link">
-            Login
-          </a>
-        </li>
-        <li className="nav-item d-none d-sm-inline-block">
-          <a href="/signup" className="nav-link">
-            Signup
-          </a>
-        </li>
-        <li className="nav-item d-none d-sm-inline-block">
           <a href="/logout" className="nav-link">
             Logout
-          </a>
-        </li>
-        <li className="nav-item d-none d-sm-inline-block">
-          <a href="/my-profile" className="nav-link">
-            MyProfile
           </a>
         </li>
       </ul>

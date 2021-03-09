@@ -34,29 +34,23 @@ function Login() {
       });
   };
 
-  // Shows notification
-  if (localStorage.getItem("message")) {
-    toast(localStorage.getItem("message"));
-    localStorage.removeItem("message");
-  }
+  
   return (
-    <div className="content-wrapper">
-      <div>
+    <div className="hold-transition login-page">
+      <div className="login-box">
         <div className="card card-outline card-primary">
           <div className="card-header text-center">
-            <a href="/" className="h1">
-              <b>Administration </b> Board
-            </a>
+            <h1>Login</h1>
           </div>
           <div className="card-body">
             <p className="login-box-msg">Sign in to start your session</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="input-group mb-3">
                 <input
-                  name="email"
                   type="email"
                   className="form-control"
                   placeholder="Email"
+                  name="email"
                   ref={register({
                     required: {
                       message: "This field is mandatory",
@@ -79,10 +73,10 @@ function Login() {
               </div>
               <div className="input-group mb-3">
                 <input
-                  name="password"
                   type="password"
                   className="form-control"
                   placeholder="Password"
+                  name="password"
                   ref={register({
                     required: {
                       message: "This filed is mandatory",
@@ -117,6 +111,9 @@ function Login() {
                 <i className="fab fa-google mr-2" /> Sign in using Google
               </a>
             </div>
+            {/* <p className="mb-1">
+              <a href="/">I forgot my password</a>
+            </p> */}
             <p className="mb-0">
               <a href="/signup" className="text-center">
                 Register a new membership

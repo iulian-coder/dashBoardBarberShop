@@ -5,6 +5,7 @@ import TableUtil from "./components/TableUtil";
 import StatBox from "./components/StatBox";
 import useRequest from "../api/apiUtil.js";
 import LoadingSpinner from "./common/LoadingSpinner";
+import { formatDate } from "./components/tableData";
 
 function DashboardHome() {
   const { apiData } = useRequest({
@@ -16,7 +17,6 @@ function DashboardHome() {
     status: "Status",
     client: "Client",
   };
-
   return (
     <div className="content-wrapper">
       <div className="content-header">
@@ -69,7 +69,11 @@ function DashboardHome() {
           )}
           <div className="card">
             <div className="card-header border-transparent">
-              <h3 className="card-title">Next Bookings</h3>
+              {apiData && (
+                <h3 className="card-title">
+                  {formatDate(apiData.reportDate, "MONTH")} Bookings
+                </h3>
+              )}
             </div>
             {!apiData && LoadingSpinner()}
             {apiData && (

@@ -17,16 +17,38 @@ function AuthProvider({ children }) {
         setState({ status: "success", error: null, user: res.data });
       })
       .catch((error) => {
-        if (error.response.status === 401) {
+        if (error.response) {
+          console.log("Request made and server responded");
+          // console.log(error.response.data);
+          // console.log(error.response.status);
+          // console.log(error.response.headers);
           setState({
-            status: "error",
+            status: error.response.status,
             error: error.response.data.message,
             user: null,
           });
+        } else if (error.request) {
+          console.log("The request was made but no response was received");
+          // console.log(error.request);
+          setState({
+            status: "error",
+            error: "Server is down !",
+            user: null,
+          });
+        } else {
+          console.log(
+            "Something happened in setting up the request that triggered an Error"
+          );
+          setState({
+            status: "error",
+            error: error.message,
+            user: null,
+          });
+          console.log("Error", error.message);
         }
       });
   }, []);
-  console.log(state);
+
   return (
     <AuthContext.Provider value={state}>
       {state.status === "pending" ? (
@@ -34,7 +56,7 @@ function AuthProvider({ children }) {
       ) : state.status === "error" ? (
         <div>
           <div>
-            <pre>{state.error}</pre>
+            <p>{state.error}</p>
           </div>
         </div>
       ) : (
@@ -45,14 +67,6 @@ function AuthProvider({ children }) {
 }
 
 export default AuthProvider;
-
-// export function useAuth() {
-//   const context = React.useContext(AuthContext);
-//   if (context === undefined) {
-//     throw new Error(`useAuth must be used within a AuthProvider`);
-//   }
-//   return context;
-// }
 
 export function useAuthState() {
   const state = React.useContext(AuthContext);

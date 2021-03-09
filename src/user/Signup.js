@@ -11,7 +11,6 @@ function Signup() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    console.log(data);
     UsePost({ url: apiRoute.signup, params: data })
       .then((res) => {
         toast.success(res.message);
@@ -30,23 +29,21 @@ function Signup() {
       });
   };
   return (
-    <div className="content-wrapper">
-      <div>
+    <div className="hold-transition register-page">
+      <div className="register-box">
         <div className="card card-outline card-primary">
           <div className="card-header text-center">
-            <a href="/" className="h1">
-              <b>Admin</b>LTE
-            </a>
+            <h1>Signup</h1>
           </div>
           <div className="card-body">
             <p className="login-box-msg">Register a new membership</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="input-group mb-3">
                 <input
-                  name="name"
                   type="text"
                   className="form-control"
                   placeholder="Full name"
+                  name="name"
                   ref={register({
                     required: {
                       message: "This field is mandatory",
@@ -78,10 +75,10 @@ function Signup() {
               </div>
               <div className="input-group mb-3">
                 <input
-                  name="email"
                   type="email"
                   className="form-control"
                   placeholder="Email"
+                  name="email"
                   ref={register({
                     required: {
                       message: "This field is mandatory",
@@ -104,10 +101,10 @@ function Signup() {
               </div>
               <div className="input-group mb-3">
                 <input
-                  name="password"
                   type="password"
                   className="form-control"
                   placeholder="Password"
+                  name="password"
                   ref={register({
                     required: {
                       message: "This filed is mandatory",
