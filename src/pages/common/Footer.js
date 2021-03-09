@@ -8,7 +8,7 @@ function Footer() {
         in Bucharest
       </strong>
       <div className="float-right d-none d-sm-inline-block">
-        <b>AdminLTE </b>
+        AdminLTE
         3.1.0-rc
       </div>
     </footer>
