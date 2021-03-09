@@ -1,6 +1,6 @@
 import React from "react";
-import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
+import { UsePost } from "../api/apiUtil";
 import { useHistory } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -11,17 +11,21 @@ function AddClient() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    addClient(data)
+    UsePost({ url: apiRoute.clients, params: data })
       .then((res) => {
         toast.success(`Add Client ${res.firstName} !`);
         history.push(`/clients/${res.clientId}`);
       })
       .catch((error) => {
-        toast.error("Something went wrong! Add Client");
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        if (error.response.data.message) {
+          toast.error(error.response.data.message);
+          toast.error(error.response.data.details.join(" | "));
+        } else {
+          history.push({
+            pathname: "/error",
+            state: { detail: error.message },
+          });
+        }
       });
   };
 
@@ -92,7 +96,7 @@ function AddClient() {
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="exampleInputemail">Email</label>
+              <label htmlFor="exampleInputemail">Email (optional)</label>
               <input
                 type="email"
                 className="form-control"
@@ -100,7 +104,11 @@ function AddClient() {
                 placeholder="Email"
                 name="email"
                 ref={register({
-                  required: { message: "This field is required", value: true },
+                  required: { message: "This field is required", value: false },
+                  pattern: {
+                    message: "E-mail address",
+                    value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                  },
                 })}
               />
               {errors.email && (
@@ -152,9 +160,3 @@ function AddClient() {
 }
 
 export default AddClient;
-
-async function addClient(data) {
-  const response = await axios.post(apiRoute.clients, data);
-
-  return response.data;
-}

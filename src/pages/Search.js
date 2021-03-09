@@ -2,12 +2,12 @@ import React from "react";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import apiRoute from "../api/apiRoute";
 import { useHistory } from "react-router-dom";
-import useQuery from "../api/useQuery";
-import LoadingSpinner from "./components/LoadingSpinner";
+import useRequest from "../api/apiUtil";
+import LoadingSpinner from "./common/LoadingSpinner";
 
 function Search() {
   const history = useHistory();
-  const { apiData } = useQuery({ url: apiRoute.clients + `/search-client` });
+  const { apiData } = useRequest({ url: apiRoute.clients + `/search-client` });
 
   const handleOnSelect = (item) => {
     // the item selected
