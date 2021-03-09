@@ -11,6 +11,7 @@ function Signup() {
   const history = useHistory();
 
   const onSubmit = (data) => {
+    console.log(data);
     UsePost({ url: apiRoute.signup, params: data })
       .then((res) => {
         toast.success(res.message);
@@ -61,8 +62,8 @@ function Signup() {
                       value: 50,
                     },
                     pattern: {
-                      message: "Full name only",
-                      value: /^([\w]{3,})+\s+([\w\s]{3,})+$/i,
+                      message: "Full name",
+                      value: /^[a-z ,.'-]+$/i,
                     },
                   })}
                 />

@@ -44,6 +44,11 @@ function Header() {
             Logout
           </a>
         </li>
+        <li className="nav-item d-none d-sm-inline-block">
+          <a href="/my-profile" className="nav-link">
+            MyProfile
+          </a>
+        </li>
       </ul>
     </nav>
   );
