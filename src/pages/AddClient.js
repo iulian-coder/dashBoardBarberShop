@@ -17,14 +17,11 @@ function AddClient() {
         history.push(`/clients/${res.clientId}`);
       })
       .catch((error) => {
-        if (error.response.data.message) {
+        if (error.response) {
           toast.error(error.response.data.message);
           toast.error(error.response.data.details.join(" | "));
         } else {
-          history.push({
-            pathname: "/error",
-            state: { detail: error.message },
-          });
+          toast.error("Error on Add Client");
         }
       });
   };

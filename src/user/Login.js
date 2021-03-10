@@ -22,13 +22,10 @@ function Login() {
         history.go(0);
       })
       .catch((error) => {
-        if (error.response.data.message) {
+        if (error.response) {
           toast.error(error.response.data.message);
         } else {
-          history.push({
-            pathname: "/error",
-            state: { detail: error.message },
-          });
+          toast.error("Error on login");
         }
       });
   };

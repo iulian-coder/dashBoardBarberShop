@@ -8,18 +8,15 @@ import LoadingSpinner from "./common/LoadingSpinner";
 function MyProfile() {
   const { apiData } = useRequest({ url: apiRoute.user });
   const history = useHistory();
-  
+
   const handleDeleteUser = () => {
     UsePost({ url: apiRoute.user })
       .then((res) => {
         toast.success(res);
-        history.push("/login");
+        history.go(0);
       })
       .catch((error) => {
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        toast.error(error.message);
       });
   };
 
@@ -46,7 +43,11 @@ function MyProfile() {
                     <div className="text-center">
                       <img
                         className="profile-user-img img-fluid img-circle"
-                        src={apiData.imageUrl ? apiData.imageUrl : "../../dist/img/avatar5.png" }
+                        src={
+                          apiData.imageUrl
+                            ? apiData.imageUrl
+                            : "../../dist/img/avatar5.png"
+                        }
                         alt="User profile"
                       />
                     </div>

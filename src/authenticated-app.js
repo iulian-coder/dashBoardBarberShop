@@ -9,11 +9,11 @@ import AddClient from "./pages/AddClient";
 import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
 import Page404 from "./error/Page404";
-import PageError from "./error/PageError";
 import "react-toastify/dist/ReactToastify.css";
 import Logout from "./user/Logout";
 import MyProfile from "./pages/MyProfile";
 import { ToastContainer } from "react-toastify";
+import ErrorHandler from "./error/ErrorHandler";
 
 export default function AuthenticatedApp() {
   return (
@@ -21,7 +21,9 @@ export default function AuthenticatedApp() {
       <Header />
       <Menu />
       <ToastContainer />
-      <AppRoutes />
+      <ErrorHandler>
+        <AppRoutes />
+      </ErrorHandler>
     </div>
   );
 }
@@ -37,7 +39,6 @@ function AppRoutes() {
       <Route exact path="/bookings" component={Bookings} />
       <Route exact path="/search" component={Search} />
       <Route exact path="/" component={DashboardHome} />
-      <Route exact path="/error" component={PageError} />
       <Route component={Page404} />
     </Switch>
   );

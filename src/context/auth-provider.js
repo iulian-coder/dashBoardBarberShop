@@ -18,33 +18,23 @@ function AuthProvider({ children }) {
       })
       .catch((error) => {
         if (error.response) {
-          console.log("Request made and server responded");
-          // console.log(error.response.data);
-          // console.log(error.response.status);
-          // console.log(error.response.headers);
           setState({
             status: error.response.status,
             error: error.response.data.message,
             user: null,
           });
         } else if (error.request) {
-          console.log("The request was made but no response was received");
-          // console.log(error.request);
           setState({
             status: "error",
             error: "Server is down !",
             user: null,
           });
         } else {
-          console.log(
-            "Something happened in setting up the request that triggered an Error"
-          );
           setState({
             status: "error",
             error: error.message,
             user: null,
           });
-          console.log("Error", error.message);
         }
       });
   }, []);

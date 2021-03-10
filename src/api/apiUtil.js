@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "./axios";
 import { API_BASE_URL } from "../constants/index";
 import apiRoute from "./apiRoute";
+import { useHistory } from "react-router-dom";
 
 const useRequest = ({ url }) => {
+  const history = useHistory();
   const [apiData, setApiData] = useState();
 
   useEffect(() => {
@@ -14,11 +16,26 @@ const useRequest = ({ url }) => {
           setApiData(data);
         })
         .catch((error) => {
-          console.log("error");
-          console.log(error);
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            history.replace(history.location.pathname, {
+              errorStatusCode: error.response.status,
+              errorMessage: error.response.data.message,
+            });
+          } else if (error.request) {
+            // The request was made but no response was received
+            history.replace(history.location.pathname, {
+              errorStatusCode: "down",
+              errorMessage: "Server is down!",
+            });
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error("Error", error.message);
+          }
         });
     })();
-  }, [url]);
+  }, [url, history]);
 
   return { apiData };
 };
