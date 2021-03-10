@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from "react";
 import Footer from "./pages/common/Footer";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthState } from "./context/auth-provider";
 import LoadingSpinner from "./pages/common/LoadingSpinner";
@@ -14,11 +13,8 @@ function App() {
   const { user } = useAuthState();
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <div className="wrapper">
-        <ToastContainer />
         {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
         <Footer />
-      </div>
     </Suspense>
   );
 }

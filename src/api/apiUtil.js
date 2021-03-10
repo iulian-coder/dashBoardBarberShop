@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
 import { API_BASE_URL } from "../constants/index";
+import apiRoute from "./apiRoute";
 
 const useRequest = ({ url }) => {
   const [apiData, setApiData] = useState();
-  const [statusCode, setStatusCode] = useState();
 
   useEffect(() => {
     (async () => {
       await axios
         .get(url)
-        .then(({status, data }) => {
-          setStatusCode(status)
+        .then(({ data }) => {
           setApiData(data);
         })
         .catch((error) => {
@@ -21,13 +20,13 @@ const useRequest = ({ url }) => {
     })();
   }, [url]);
 
-  return { apiData, statusCode };
+  return { apiData };
 };
 
 export default useRequest;
 
 export function GetCurrentUser() {
-  const dataResponse = axios.get(API_BASE_URL + "/user/me");
+  const dataResponse = axios.get(API_BASE_URL + apiRoute.user);
   return dataResponse;
 }
 

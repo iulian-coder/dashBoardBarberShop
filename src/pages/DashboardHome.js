@@ -75,7 +75,6 @@ function DashboardHome() {
                 </h3>
               )}
             </div>
-            {!apiData && LoadingSpinner()}
             {apiData && (
               <div className="card-body p-0">
                 <TableUtil

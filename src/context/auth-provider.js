@@ -54,11 +54,13 @@ function AuthProvider({ children }) {
       {state.status === "pending" ? (
         <LoadingSpinner />
       ) : state.status === "error" ? (
-        <div>
-          <div>
-            <p>{state.error}</p>
+        <section className="content">
+          <div className="error-page">
+            <div className="error-content">
+              <h2 className="text-danger">Error: {state.error}</h2>
+            </div>
           </div>
-        </div>
+        </section>
       ) : (
         children
       )}

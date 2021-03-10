@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import DashboardHome from "./pages/DashboardHome";
 import Header from "./pages/common/HeaderMenu";
 import Menu from "./pages/common/SidebarMenu";
@@ -13,14 +13,16 @@ import PageError from "./error/PageError";
 import "react-toastify/dist/ReactToastify.css";
 import Logout from "./user/Logout";
 import MyProfile from "./pages/MyProfile";
+import { ToastContainer } from "react-toastify";
 
 export default function AuthenticatedApp() {
   return (
-    <Fragment>
+    <div className="wrapper">
       <Header />
       <Menu />
+      <ToastContainer />
       <AppRoutes />
-    </Fragment>
+    </div>
   );
 }
 

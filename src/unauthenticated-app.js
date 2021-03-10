@@ -4,11 +4,16 @@ import PageError from "./error/PageError";
 import Login from "./user/Login";
 import OAuth2RedirectHandler from "./user/OAuth2RedirectHandler";
 import Signup from "./user/Signup";
+import { ToastContainer } from "react-toastify";
 
 export default function UnauthenticatedApp() {
-  return <AppRoutes />;
+  return (
+    <div className="wrapper">
+      <ToastContainer />
+      <AppRoutes />
+    </div>
+  );
 }
-
 function AppRoutes() {
   return (
     <Switch>
