@@ -51,10 +51,7 @@ function FormProfileModify({ clientId }) {
       })
       .catch((error) => {
         toast.error("Something went wrong! Modify profile");
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        toast.error(error.message);
       });
   };
 

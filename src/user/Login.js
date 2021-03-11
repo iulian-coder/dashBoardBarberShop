@@ -19,16 +19,15 @@ function Login() {
     UsePost({ url: apiRoute.login, params: data })
       .then((res) => {
         localStorage.setItem(ACCESS_TOKEN, res.accessToken);
+        history.push("/");
         history.go(0);
       })
       .catch((error) => {
-        if (error.response.data.message) {
+        if (error.response) {
           toast.error(error.response.data.message);
         } else {
-          history.push({
-            pathname: "/error",
-            state: { detail: error.message },
-          });
+          toast.error("Something went wrong ! Login");
+          toast.error(error.message);
         }
       });
   };
@@ -54,10 +53,10 @@ function Login() {
                       message: "This field is mandatory",
                       value: true,
                     },
-                    pattern: {
-                      message: "E-mail address",
-                      value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
-                    },
+                    // pattern: {
+                    //   message: "E-mail address",
+                    //   value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                    // },
                   })}
                 />
                 {errors.email && (

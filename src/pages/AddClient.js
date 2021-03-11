@@ -9,7 +9,6 @@ import PhoneInput from "react-phone-input-2";
 function AddClient() {
   const { register, handleSubmit, control, errors } = useForm();
   const history = useHistory();
-
   const onSubmit = (data) => {
     UsePost({ url: apiRoute.clients, params: data })
       .then((res) => {
@@ -17,14 +16,12 @@ function AddClient() {
         history.push(`/clients/${res.clientId}`);
       })
       .catch((error) => {
-        if (error.response.data.message) {
+        if (error.response) {
           toast.error(error.response.data.message);
           toast.error(error.response.data.details.join(" | "));
         } else {
-          history.push({
-            pathname: "/error",
-            state: { detail: error.message },
-          });
+          toast.error("Something went wrong ! Add Client");
+          toast.error(error.message);
         }
       });
   };

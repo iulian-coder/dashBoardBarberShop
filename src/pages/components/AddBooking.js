@@ -33,10 +33,7 @@ function FormProfileAddBooking({ clientId }) {
       })
       .catch((error) => {
         toast.error("Something went wrong ! Add Booking");
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        toast.error(error.message);
       });
   };
 

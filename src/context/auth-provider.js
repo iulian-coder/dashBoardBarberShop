@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext} from "react";
 import { GetCurrentUser } from "../api/apiUtil";
 import LoadingSpinner from "../pages/common/LoadingSpinner";
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [state, setState] = useState({
@@ -18,33 +18,23 @@ function AuthProvider({ children }) {
       })
       .catch((error) => {
         if (error.response) {
-          console.log("Request made and server responded");
-          // console.log(error.response.data);
-          // console.log(error.response.status);
-          // console.log(error.response.headers);
           setState({
             status: error.response.status,
             error: error.response.data.message,
             user: null,
           });
         } else if (error.request) {
-          console.log("The request was made but no response was received");
-          // console.log(error.request);
           setState({
             status: "error",
             error: "Server is down !",
             user: null,
           });
         } else {
-          console.log(
-            "Something happened in setting up the request that triggered an Error"
-          );
           setState({
             status: "error",
             error: error.message,
             user: null,
           });
-          console.log("Error", error.message);
         }
       });
   }, []);
@@ -54,11 +44,13 @@ function AuthProvider({ children }) {
       {state.status === "pending" ? (
         <LoadingSpinner />
       ) : state.status === "error" ? (
-        <div>
-          <div>
-            <p>{state.error}</p>
+        <section className="content">
+          <div className="error-page">
+            <div className="error-content">
+              <h2 className="text-danger">Error: {state.error}</h2>
+            </div>
           </div>
-        </div>
+        </section>
       ) : (
         children
       )}

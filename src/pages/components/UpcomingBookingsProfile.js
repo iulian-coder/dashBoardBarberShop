@@ -19,10 +19,7 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
       })
       .catch((error) => {
         toast.error("Something went wrong! Change booking");
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        toast.error(error.message);
       });
   };
 

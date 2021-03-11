@@ -17,14 +17,12 @@ function Signup() {
         history.push("/login");
       })
       .catch((error) => {
-        if (error.response.data.message) {
+        if (error.response) {
           toast.error(error.response.data.message);
           toast.error(error.response.data.details.join(" | "));
         } else {
-          history.push({
-            pathname: "/error",
-            state: { detail: error.message },
-          });
+          toast.error("Something went wrong ! Signup");
+          toast.error(error.message);
         }
       });
   };
@@ -84,10 +82,10 @@ function Signup() {
                       message: "This field is mandatory",
                       value: true,
                     },
-                    pattern: {
-                      message: "E-mail address",
-                      value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
-                    },
+                    // pattern: {
+                    //   message: "E-mail address",
+                    //   value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                    // },
                   })}
                 />
                 {errors.email && (

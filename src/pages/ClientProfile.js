@@ -33,10 +33,7 @@ function ClientProfile() {
       })
       .catch((error) => {
         toast.error("Something went wrong ! Delete client");
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        toast.error(error.message);
       });
   };
 

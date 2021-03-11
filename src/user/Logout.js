@@ -5,13 +5,17 @@ import { useHistory } from "react-router-dom";
 export default function Logout() {
   const history = useHistory();
   localStorage.removeItem(ACCESS_TOKEN);
-  const [counter, setCounter] = useState(10);
+  const timeInMilliseconds = 10000;
+  const [counter, setCounter] = useState(timeInMilliseconds / 1000);
+
   useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
   }, [counter]);
+
   setTimeout(() => {
     history.go(0);
-  }, 10000);
+  }, timeInMilliseconds);
+
   return (
     <section className="content">
       <div className="error-page">
