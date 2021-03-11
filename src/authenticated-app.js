@@ -2,7 +2,7 @@ import React from "react";
 import DashboardHome from "./pages/DashboardHome";
 import Header from "./pages/common/HeaderMenu";
 import Menu from "./pages/common/SidebarMenu";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Clients from "./pages/Clients";
 import ClientProfile from "./pages/ClientProfile";
 import AddClient from "./pages/AddClient";
@@ -38,6 +38,36 @@ function AppRoutes() {
       <Route exact path="/my-profile" component={MyProfile} />
       <Route exact path="/bookings" component={Bookings} />
       <Route exact path="/search" component={Search} />
+      <Route
+        exact
+        path="/login"
+        render={() => (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: {
+                errorStatusCode: "general",
+                errorMessage: "You are already logged into the application",
+              },
+            }}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/signup"
+        render={() => (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: {
+                errorStatusCode: "general",
+                errorMessage: "You must logout for register a new user",
+              },
+            }}
+          />
+        )}
+      />
       <Route exact path="/" component={DashboardHome} />
       <Route component={Page404} />
     </Switch>

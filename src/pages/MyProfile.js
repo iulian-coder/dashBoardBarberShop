@@ -2,11 +2,11 @@ import React from "react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import apiRoute from "../api/apiRoute";
-import useRequest, { UsePost } from "../api/apiUtil";
-import LoadingSpinner from "./common/LoadingSpinner";
+import { UsePost } from "../api/apiUtil";
+import { useAuthState } from "../context/auth-provider";
 
 function MyProfile() {
-  const { apiData } = useRequest({ url: apiRoute.user });
+  const { user } = useAuthState();
   const history = useHistory();
 
   const handleDeleteUser = () => {
@@ -20,7 +20,6 @@ function MyProfile() {
         toast.error(error.message);
       });
   };
-
   return (
     <div className="content-wrapper">
       <section className="content-header">
@@ -38,38 +37,37 @@ function MyProfile() {
           <div className="row">
             <div className="col-md-3">
               <div className="card card-primary card-outline">
-                {!apiData && LoadingSpinner()}
-                {apiData && (
+                {user && (
                   <div className="card-body box-profile">
                     <div className="text-center">
                       <img
                         className="profile-user-img img-fluid img-circle"
                         src={
-                          apiData.imageUrl
-                            ? apiData.imageUrl
+                          user.imageUrl
+                            ? user.imageUrl
                             : "../../dist/img/avatar5.png"
                         }
                         alt="User profile"
                       />
                     </div>
                     <h3 className="profile-username text-center">
-                      {apiData.name}
+                      {user.name}
                     </h3>
                     <ul className="list-group list-group-unbordered mb-3">
                       <li className="list-group-item">
                         <b>E-mail</b>{" "}
-                        <b className="float-right"> {apiData.email}</b>
+                        <b className="float-right"> {user.email}</b>
                       </li>
                       <li className="list-group-item">
                         <b>E-mail verified</b>{" "}
                         <b className="float-right">
                           {" "}
-                          {apiData.emailVerified ? "Yes" : "No"}{" "}
+                          {user.emailVerified ? "Yes" : "No"}{" "}
                         </b>
                       </li>
                       <li className="list-group-item">
                         <b>Authenticated</b>{" "}
-                        <b className="float-right">{apiData.provider}</b>
+                        <b className="float-right">{user.provider}</b>
                       </li>
                     </ul>
                     <button

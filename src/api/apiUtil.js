@@ -16,6 +16,7 @@ const useRequest = ({ url }) => {
           setApiData(data);
         })
         .catch((error) => {
+          // console.error(error);
           if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
@@ -26,8 +27,9 @@ const useRequest = ({ url }) => {
           } else if (error.request) {
             // The request was made but no response was received
             history.replace(history.location.pathname, {
-              errorStatusCode: "down",
-              errorMessage: "Server is down!",
+              errorStatusCode: "general",
+              errorMessage:
+                "Something went wrong with the response from the server!",
             });
           } else {
             // Something happened in setting up the request that triggered an Error

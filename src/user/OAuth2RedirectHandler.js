@@ -36,7 +36,7 @@ export default function OAuth2RedirectHandler() {
             </h3>
             {error && (
               <h3 className="text-danger">
-                Error : Authentication via social media failed
+                Error : Authentication via social media failed | {error}
               </h3>
             )}
           </div>

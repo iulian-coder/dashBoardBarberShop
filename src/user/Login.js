@@ -53,10 +53,10 @@ function Login() {
                       message: "This field is mandatory",
                       value: true,
                     },
-                    pattern: {
-                      message: "E-mail address",
-                      value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
-                    },
+                    // pattern: {
+                    //   message: "E-mail address",
+                    //   value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                    // },
                   })}
                 />
                 {errors.email && (

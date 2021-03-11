@@ -5,7 +5,9 @@ import ErrorResponse from "./ErrorResponse";
 
 function ErrorHandler({ children }) {
   const location = useLocation();
-  const { errorStatusCode, errorMessage} = location.state ? location.state : "";
+  const { errorStatusCode, errorMessage } = location.state
+    ? location.state
+    : "";
 
   switch (errorStatusCode) {
     case 404:
@@ -14,8 +16,9 @@ function ErrorHandler({ children }) {
       return <ErrorResponse errorMessage={errorMessage} />;
     case 500:
       return <ErrorResponse errorMessage={errorMessage} />;
-    case "down":
+    case "general":
       return <ErrorResponse errorMessage={errorMessage} />;
+
     default:
       return children;
   }
