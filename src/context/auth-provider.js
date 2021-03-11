@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext} from "react";
 import { GetCurrentUser } from "../api/apiUtil";
 import LoadingSpinner from "../pages/common/LoadingSpinner";
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [state, setState] = useState({

@@ -16,6 +16,7 @@ function MyProfile() {
         history.go(0);
       })
       .catch((error) => {
+        toast.error("Something went wrong ! Delete Account");
         toast.error(error.message);
       });
   };

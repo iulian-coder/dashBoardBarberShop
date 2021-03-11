@@ -25,7 +25,8 @@ function Login() {
         if (error.response) {
           toast.error(error.response.data.message);
         } else {
-          toast.error("Error on login");
+          toast.error("Something went wrong ! Login");
+          toast.error(error.message);
         }
       });
   };

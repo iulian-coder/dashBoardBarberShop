@@ -21,7 +21,8 @@ function Signup() {
           toast.error(error.response.data.message);
           toast.error(error.response.data.details.join(" | "));
         } else {
-          toast.error("Error on signup");
+          toast.error("Something went wrong ! Signup");
+          toast.error(error.message);
         }
       });
   };
