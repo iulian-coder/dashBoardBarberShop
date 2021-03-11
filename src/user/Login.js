@@ -19,6 +19,7 @@ function Login() {
     UsePost({ url: apiRoute.login, params: data })
       .then((res) => {
         localStorage.setItem(ACCESS_TOKEN, res.accessToken);
+        history.push("/");
         history.go(0);
       })
       .catch((error) => {
