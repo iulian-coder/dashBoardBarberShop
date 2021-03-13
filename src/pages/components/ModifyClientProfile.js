@@ -23,14 +23,16 @@ function FormProfileModify({ clientId }) {
           reset(res.data);
         })
         .catch((error) => {
-          history.push({
-            pathname: "/error",
-            state: { detail: error.message },
-          });
+          if (error.response) {
+            toast.error(error.response.data.message);
+          } else {
+            toast.error("Something went wrong ! Client Profile");
+            toast.error(error.message);
+          }
         });
     }
     fetchData();
-  }, [reset, clientId, history]);
+  }, [reset, clientId]);
 
   const onSubmit = (formData) => {
     let updateData = {
@@ -43,15 +45,16 @@ function FormProfileModify({ clientId }) {
 
     UsePut({ url: apiRoute.clients, params: updateData })
       .then((res) => {
-        localStorage.setItem(
-          "message",
-          `Client profile ID:${res.clientId} updated`
-        );
+        localStorage.setItem("message", `${res.message}`);
         history.go(0);
       })
       .catch((error) => {
-        toast.error("Something went wrong! Modify profile");
-        toast.error(error.message);
+        if (error.response) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Something went wrong ! Modify Client Profile");
+          toast.error(error.message);
+        }
       });
   };
 

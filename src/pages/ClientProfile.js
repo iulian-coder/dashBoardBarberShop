@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import apiRoute from "../api/apiRoute";
 import { UseDelete } from "../api/apiUtil";
-import FormProfileModify from "./components/ModifyProfile";
+import FormProfileModify from "./components/ModifyClientProfile";
 import UpcomingBookingsProfile from "./components/UpcomingBookingsProfile";
 import { useHistory } from "react-router-dom";
 import FormProfileAddBooking from "./components/AddBooking";
@@ -32,8 +32,12 @@ function ClientProfile() {
         history.push("/clients");
       })
       .catch((error) => {
-        toast.error("Something went wrong ! Delete client");
-        toast.error(error.message);
+        if (error.response) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Something went wrong ! Client Profile");
+          toast.error(error.message);
+        }
       });
   };
 
