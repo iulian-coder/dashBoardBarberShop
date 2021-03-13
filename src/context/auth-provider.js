@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext} from "react";
+import React, { useEffect, useState, createContext } from "react";
 import { GetCurrentUser } from "../api/apiUtil";
 import LoadingSpinner from "../pages/common/LoadingSpinner";
 
@@ -26,7 +26,8 @@ function AuthProvider({ children }) {
         } else if (error.request) {
           setState({
             status: "error",
-            error: "Server is down !",
+            error:
+              "Server is down ! If you are on Heroku please refresh the page (sometimes the server enters in to sleep mode) ",
             user: null,
           });
         } else {
