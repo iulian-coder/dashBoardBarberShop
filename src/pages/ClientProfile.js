@@ -1,19 +1,19 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import axios from "../api/axios";
 import apiRoute from "../api/apiRoute";
+import { UseDelete } from "../api/apiUtil";
 import FormProfileModify from "./components/ModifyProfile";
 import UpcomingBookingsProfile from "./components/UpcomingBookingsProfile";
 import { useHistory } from "react-router-dom";
 import FormProfileAddBooking from "./components/AddBooking";
 import TableUtil from "./components/TableUtil";
 import { toast } from "react-toastify";
-import useQuery from "../api/useQuery";
-import LoadingSpinner from "./components/LoadingSpinner";
+import useRequest from "../api/apiUtil.js";
+import LoadingSpinner from "./common/LoadingSpinner";
 
 function ClientProfile() {
   const { id } = useParams();
-  const { apiData } = useQuery({ url: apiRoute.clients + `/${id}` });
+  const { apiData } = useRequest({ url: apiRoute.clients + `/${id}` });
   const history = useHistory();
 
   const columnsData = {
@@ -25,17 +25,15 @@ function ClientProfile() {
   };
 
   const handleDeleteClient = (clientId) => {
-    deleteClient(clientId)
+    let dataToDelete = { clientId: clientId };
+    UseDelete({ url: apiRoute.clients, params: dataToDelete })
       .then(() => {
         toast.success("Client deleted");
         history.push("/clients");
       })
       .catch((error) => {
         toast.error("Something went wrong ! Delete client");
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        toast.error(error.message);
       });
   };
 
@@ -76,10 +74,10 @@ function ClientProfile() {
                     </h3>
                     <ul className="list-group list-group-unbordered mb-3">
                       <li className="list-group-item">
-                        <b>E-mail</b> {apiData.email}
+                        <b>E-mail:</b> {apiData.email ? apiData.email : "N/A"}
                       </li>
                       <li className="list-group-item">
-                        <b>Phone</b> +{apiData.phoneNo}
+                        <b>Phone:</b> +{apiData.phoneNo}
                       </li>
                     </ul>
                     <button
@@ -191,13 +189,6 @@ function ClientProfile() {
 }
 
 export default ClientProfile;
-
-async function deleteClient(dataId) {
-  const dataResponse = await axios.delete(apiRoute.clients, {
-    data: { clientId: dataId },
-  });
-  return dataResponse.data;
-}
 
 function filterBookings(data, option) {
   const result = data.filter((item) => item.bookingStatus === option);

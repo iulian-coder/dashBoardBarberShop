@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import apiRoute from "../api/apiRoute";
 import TableUtil from "./components/TableUtil";
-import useQuery from "../api/useQuery";
-import LoadingSpinner from "./components/LoadingSpinner";
+import useRequest from "../api/apiUtil";
+import LoadingSpinner from "./common/LoadingSpinner";
 
 function Bookings() {
   const [pageNumber, setPageNumber] = useState(0);
   const numberOfResultsOnPage = 10;
-  const { apiData } = useQuery({
+  const { apiData } = useRequest({
     url:
       apiRoute.bookings + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
   });

@@ -1,7 +1,7 @@
-import axios from "../../api/axios";
 import React from "react";
 import apiRoute from "../../api/apiRoute";
-import {formatDate} from "../components/tableData";
+import { UsePut } from "../../api/apiUtil.js";
+import { formatDate } from "../components/tableData";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -12,22 +12,18 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
       id: bookingId,
       status: status,
     };
-    changeBookingStatus(bookingData)
+    UsePut({ url: apiRoute.bookings, params: bookingData })
       .then((res) => {
         localStorage.setItem("message", `Booking ID:${res.id} updated`);
         history.go(0);
       })
       .catch((error) => {
         toast.error("Something went wrong! Change booking");
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        toast.error(error.message);
       });
   };
 
   return (
-    
     <div className="timeline timeline-inverse">
       {clientDataUpcomingBookings.map((item) => (
         <div key={item.id}>
@@ -70,8 +66,3 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
 }
 
 export default UpcomingBookingsProfile;
-
-async function changeBookingStatus(data) {
-  const responseData = await axios.put(apiRoute.bookings, data);
-  return responseData.data;
-}

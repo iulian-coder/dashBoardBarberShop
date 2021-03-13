@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import axios from "../../api/axios";
 import apiRoute from "../../api/apiRoute";
+import { UsePost } from "../../api/apiUtil";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useHistory } from "react-router-dom";
@@ -12,17 +12,17 @@ function FormProfileAddBooking({ clientId }) {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    let BookingDTO = {
+    let newBooking = {
       clientId: clientId,
       bookingDate: data.bookingDate,
       bookingNotes: data.bookingNotes,
       sendSms: data.sendSms,
     };
-    addBooking(BookingDTO)
+    UsePost({ url: apiRoute.bookings, params: newBooking })
       .then((res) => {
         localStorage.setItem(
           "message",
-          `New booking ID:${res.id} created | ${
+          `New booking ID:${res.id} created  ${
             data.sendSms
               ? "SMS Developer account works only with register numbers"
               : ""
@@ -33,10 +33,7 @@ function FormProfileAddBooking({ clientId }) {
       })
       .catch((error) => {
         toast.error("Something went wrong ! Add Booking");
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        toast.error(error.message);
       });
   };
 
@@ -158,8 +155,3 @@ function FormProfileAddBooking({ clientId }) {
 }
 
 export default FormProfileAddBooking;
-
-async function addBooking(data) {
-  const responseData = await axios.post(apiRoute.bookings, data);
-  return responseData.data;
-}

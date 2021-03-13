@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "../../api/axios";
+import { UsePut } from "../../api/apiUtil";
 import apiRoute from "../../api/apiRoute";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -39,7 +40,8 @@ function FormProfileModify({ clientId }) {
       email: formData.email,
       phoneNo: formData.phoneNo,
     };
-    updateClient(updateData)
+
+    UsePut({ url: apiRoute.clients, params: updateData })
       .then((res) => {
         localStorage.setItem(
           "message",
@@ -49,10 +51,7 @@ function FormProfileModify({ clientId }) {
       })
       .catch((error) => {
         toast.error("Something went wrong! Modify profile");
-        history.push({
-          pathname: "/error",
-          state: { detail: error.message },
-        });
+        toast.error(error.message);
       });
   };
 
@@ -134,7 +133,7 @@ function FormProfileModify({ clientId }) {
             id="inputEmail"
             placeholder="Email"
             ref={register({
-              required: { message: "This field is required", value: true },
+              required: { message: "This field is required", value: false },
             })}
           />
           {errors.email && (
@@ -189,8 +188,3 @@ function FormProfileModify({ clientId }) {
 }
 
 export default FormProfileModify;
-
-async function updateClient(updateData) {
-  const dataResponse = await axios.put(apiRoute.clients, updateData);
-  return dataResponse.data;
-}
