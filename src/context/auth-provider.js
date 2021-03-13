@@ -27,7 +27,9 @@ function AuthProvider({ children }) {
           setState({
             status: "error",
             error:
-              "Server is down ! If you are on Heroku please refresh the page (sometimes the server enters in to sleep mode) ",
+              "Server is down !" +
+              " If you are on Heroku please refresh the page or go to wake up: https://dashboardbarbershopapi.herokuapp.com/" +
+              " (sometimes the backend server enters in to sleep mode) ",
             user: null,
           });
         } else {
