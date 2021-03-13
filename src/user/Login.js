@@ -25,6 +25,7 @@ function Login() {
       .catch((error) => {
         if (error.response) {
           toast.error(error.response.data.message);
+          console.log(error.response);
         } else {
           toast.error("Something went wrong ! Login");
           toast.error(error.message);
