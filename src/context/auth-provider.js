@@ -28,8 +28,8 @@ function AuthProvider({ children }) {
             status: "error",
             error:
               "Server is down !" +
-              " If you are on Heroku please refresh the page or go to wake up: https://dashboardbarbershopapi.herokuapp.com/" +
-              " (sometimes the backend server enters in to sleep mode) ",
+              " If you are on Heroku please go https://dashboardbarbershopapi.herokuapp.com/" +
+              " (server enters in to sleep mode on free account) ",
             user: null,
           });
         } else {
