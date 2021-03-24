@@ -2,7 +2,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import apiRoute from "../api/apiRoute";
-import { UsePost } from "../api/apiUtil";
+import { UseDelete } from "../api/apiUtil";
 import { useAuthState } from "../context/auth-provider";
 
 function MyProfile() {
@@ -10,7 +10,7 @@ function MyProfile() {
   const history = useHistory();
 
   const handleDeleteUser = () => {
-    UsePost({ url: apiRoute.user })
+    UseDelete({ url: apiRoute.user })
       .then((res) => {
         toast.success(res);
         history.go(0);

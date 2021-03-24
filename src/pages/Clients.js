@@ -22,7 +22,6 @@ function Clients() {
     action: "Action",
   };
 
-
   const handlePageNo = (dataPage) => {
     setPageNumber(pageNumber + dataPage);
   };

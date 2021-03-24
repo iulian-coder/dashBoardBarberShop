@@ -44,7 +44,7 @@ const useRequest = ({ url }) => {
 
 export default useRequest;
 
-export function GetCurrentUser() {
+export async function GetCurrentUser() {
   const dataResponse = axios.get(API_BASE_URL + apiRoute.user);
   return dataResponse;
 }
