@@ -14,6 +14,7 @@ import Logout from "./user/Logout";
 import MyProfile from "./pages/MyProfile";
 import { ToastContainer } from "react-toastify";
 import ErrorHandler from "./error/ErrorHandler";
+import { Routes } from "./routes";
 
 export default function AuthenticatedApp() {
   return (
@@ -31,16 +32,24 @@ export default function AuthenticatedApp() {
 function AppRoutes() {
   return (
     <Switch>
-      <Route exact path="/logout" component={Logout} />
-      <Route exact path="/clients" component={Clients} />
-      <Route exact path="/clients/new-client" component={AddClient} />
-      <Route exact path="/clients/:id/" component={ClientProfile} />
-      <Route exact path="/my-profile" component={MyProfile} />
-      <Route exact path="/bookings" component={Bookings} />
-      <Route exact path="/search" component={Search} />
+      <Route exact path={Routes.Logout.path} component={Logout} />
+      <Route exact path={Routes.Clients.path} component={Clients} />
       <Route
         exact
-        path="/login"
+        path={Routes.Clients.path + "/new-client"}
+        component={AddClient}
+      />
+      <Route
+        exact
+        path={Routes.Clients.path + "/:id"}
+        component={ClientProfile}
+      />
+      <Route exact path={Routes.MyProfile.path} component={MyProfile} />
+      <Route exact path={Routes.Bookings.path} component={Bookings} />
+      <Route exact path={Routes.Search.path} component={Search} />
+      <Route
+        exact
+        path={Routes.Login.path}
         render={() => (
           <Redirect
             to={{
@@ -55,7 +64,7 @@ function AppRoutes() {
       />
       <Route
         exact
-        path="/signup"
+        path={Routes.Signup.path}
         render={() => (
           <Redirect
             to={{
@@ -68,7 +77,7 @@ function AppRoutes() {
           />
         )}
       />
-      <Route exact path="/" component={DashboardHome} />
+      <Route exact path={Routes.HomePage.path} component={DashboardHome} />
       <Route component={Page404} />
     </Switch>
   );

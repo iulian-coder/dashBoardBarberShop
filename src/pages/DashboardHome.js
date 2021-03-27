@@ -1,11 +1,11 @@
 import React from "react";
-import apiRoute from "../api/apiRoute";
-import TableUtil from "./components/TableUtil";
+import apiRoute from "../api/apiRoutes";
+import TableUtil from "../components/TableUtil";
 
-import StatBox from "./components/StatBox";
+import StatBox from "../components/StatBox";
 import useRequest from "../api/apiUtil.js";
 import LoadingSpinner from "./common/LoadingSpinner";
-import { formatDate } from "./components/tableData";
+import { formatDate } from "../components/tableData";
 
 function DashboardHome() {
   const { apiData } = useRequest({

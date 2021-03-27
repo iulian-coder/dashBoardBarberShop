@@ -2,7 +2,7 @@ import React from "react";
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from "../constants/index";
 import { useForm } from "react-hook-form";
 import { UsePost } from "../api/apiUtil";
-import apiRoute from "../api/apiRoute";
+import apiRoute from "../api/apiRoutes";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 

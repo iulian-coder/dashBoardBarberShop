@@ -1,7 +1,7 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import apiRoute from "../api/apiRoute";
+import apiRoute from "../api/apiRoutes";
 import { UseDelete } from "../api/apiUtil";
 import { useAuthState } from "../context/auth-provider";
 

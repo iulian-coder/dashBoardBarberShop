@@ -1,12 +1,12 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import apiRoute from "../api/apiRoute";
+import apiRoute from "../api/apiRoutes";
 import { UseDelete } from "../api/apiUtil";
-import FormProfileModify from "./components/ModifyClientProfile";
-import UpcomingBookingsProfile from "./components/UpcomingBookingsProfile";
+import FormProfileModify from "../components/ModifyClientProfile";
+import UpcomingBookingsProfile from "../components/UpcomingBookingsProfile";
 import { useHistory } from "react-router-dom";
-import FormProfileAddBooking from "./components/AddBooking";
-import TableUtil from "./components/TableUtil";
+import FormProfileAddBooking from "../components/AddBooking";
+import TableUtil from "../components/TableUtil";
 import { toast } from "react-toastify";
 import useRequest from "../api/apiUtil.js";
 import LoadingSpinner from "./common/LoadingSpinner";

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import axios from "../../api/axios";
-import { UsePut } from "../../api/apiUtil";
-import apiRoute from "../../api/apiRoute";
+import axios from "../api/axios";
+import { UsePut } from "../api/apiUtil";
+import apiRoute from "../api/apiRoutes";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import PhoneInput from "react-phone-input-2";

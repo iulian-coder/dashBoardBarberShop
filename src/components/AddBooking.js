@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import apiRoute from "../../api/apiRoute";
-import { UsePost } from "../../api/apiUtil";
+import apiRoute from "../api/apiRoutes";
+import { UsePost } from "../api/apiUtil";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useHistory } from "react-router-dom";

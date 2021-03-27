@@ -1,6 +1,6 @@
 import React from "react";
-import apiRoute from "../../api/apiRoute";
-import { UsePut } from "../../api/apiUtil.js";
+import apiRoute from "../api/apiRoutes";
+import { UsePut } from "../api/apiUtil.js";
 import { formatDate } from "../components/tableData";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
 import { API_BASE_URL } from "../constants/index";
-import apiRoute from "./apiRoute";
+import apiRoute from "./apiRoutes";
 import { useHistory } from "react-router-dom";
 
 const useRequest = ({ url }) => {

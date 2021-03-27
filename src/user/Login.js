@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 import { toast } from "react-toastify";
-import apiRoute from "../api/apiRoute";
+import apiRoute from "../api/apiRoutes";
 import { UsePost } from "../api/apiUtil";
 import {
   GOOGLE_AUTH_URL,

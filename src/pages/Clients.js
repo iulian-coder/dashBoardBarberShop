@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import apiRoute from "../api/apiRoute";
-import TableUtil from "./components/TableUtil";
+import apiRoute from "../api/apiRoutes";
+import TableUtil from "../components/TableUtil";
 import useRequest from "../api/apiUtil";
 import LoadingSpinner from "./common/LoadingSpinner";
 
