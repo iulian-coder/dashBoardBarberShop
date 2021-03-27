@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext } from "react";
 import { GetCurrentUser } from "../api/apiUtil";
-import LoadingSpinner from "../pages/common/LoadingSpinner";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const AuthContext = createContext();
 
@@ -27,7 +27,9 @@ function AuthProvider({ children }) {
           setState({
             status: "error",
             error:
-              "Server is down ! If you are on Heroku please refresh the page (sometimes the server enters in to sleep mode) ",
+              "Server is down !" +
+              " If you are on Heroku please visit https://dashboardbarbershopapi.herokuapp.com/" +
+              " (to wake up the server, sometimes it enters in to sleep mode on free account) ",
             user: null,
           });
         } else {

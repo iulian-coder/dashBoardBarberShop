@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDate } from "../components/tableData";
+import { formatDate } from "../components/Tables";
 import { useHistory } from "react-router-dom";
 
 function StatBox({
@@ -21,7 +21,7 @@ function StatBox({
         <div className="inner">
           <h3>{dataValue}</h3>
           <p>
-            {dataName} {formatDate(reportDate, "MONTH")}
+            {dataName} {formatDate({ date: reportDate, option: "MONTH" })}
           </p>
         </div>
         <div className="icon">

@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from "react";
-import Footer from "./pages/common/Footer";
+import Footer from "./common/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthState } from "./context/auth-provider";
-import LoadingSpinner from "./pages/common/LoadingSpinner";
+import LoadingSpinner from "./common/LoadingSpinner";
 
 const AuthenticatedApp = lazy(() => import("./authenticated-app"));
 const UnauthenticatedApp = lazy(() => import("./unauthenticated-app"));

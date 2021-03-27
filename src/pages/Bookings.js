@@ -1,30 +1,16 @@
 import React, { useState } from "react";
-import apiRoute from "../api/apiRoute";
-import TableUtil from "./components/TableUtil";
+import {ApiRoutes} from "../routes"
 import useRequest from "../api/apiUtil";
-import LoadingSpinner from "./common/LoadingSpinner";
+import LoadingSpinner from "../common/LoadingSpinner";
+import { BookingsTable } from "../components/Tables";
 
-function Bookings() {
-  const [pageNumber, setPageNumber] = useState(0);
+export default function Bookings() {
+  const [pageNumber] = useState(0);
   const numberOfResultsOnPage = 10;
   const { apiData } = useRequest({
     url:
-      apiRoute.bookings + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
+      ApiRoutes.bookings + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
   });
-
-  const handlePageNo = (dataPage) => {
-    setPageNumber(pageNumber + dataPage);
-  };
-
-  const bookingsTableHeaderData = {
-    bookingDate: "Date",
-    bookingTime: "Time",
-    client: "Client",
-    status: "Status",
-    createdDate: "Created",
-    updatedDate: "Updated",
-    id: "Id",
-  };
 
   return (
     <div className="content-wrapper">
@@ -54,17 +40,7 @@ function Bookings() {
                 </div>
                 <div className="card-body">
                   {!apiData && LoadingSpinner()}
-                  {apiData && (
-                    <TableUtil
-                      tableHeaderData={bookingsTableHeaderData}
-                      tableBodyData={apiData}
-                      tableFootData={newFunction_1(
-                        apiData,
-                        pageNumber,
-                        handlePageNo
-                      )}
-                    />
-                  )}
+                  {apiData && <BookingsTable tableData={apiData} />}
                 </div>
               </div>
             </div>
@@ -73,40 +49,4 @@ function Bookings() {
       </section>
     </div>
   );
-}
-
-export default Bookings;
-
-function newFunction_1(bookingsData, pageNumber, handlePageNo) {
-  return bookingsData.length === 10 && pageNumber === 0 ? (
-    <tr>
-      <td>
-        <button className="page-link" onClick={() => handlePageNo(1)}>
-          Next
-        </button>
-      </td>
-    </tr>
-  ) : bookingsData.length === 10 && pageNumber !== 0 ? (
-    <tr>
-      <td>
-        <button className="page-link" onClick={() => handlePageNo(-1)}>
-          Back
-        </button>
-      </td>
-      <td>
-        {" "}
-        <button className="page-link" onClick={() => handlePageNo(1)}>
-          Next
-        </button>
-      </td>
-    </tr>
-  ) : bookingsData.length < 10 && pageNumber !== 0 ? (
-    <tr>
-      <td>
-        <button className="page-link" onClick={() => handlePageNo(-1)}>
-          Back
-        </button>
-      </td>
-    </tr>
-  ) : null;
 }

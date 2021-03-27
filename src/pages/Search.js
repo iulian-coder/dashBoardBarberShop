@@ -1,19 +1,18 @@
 import React from "react";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import apiRoute from "../api/apiRoute";
+import { ApiRoutes } from "../routes";
 import { useHistory } from "react-router-dom";
 import useRequest from "../api/apiUtil";
-import LoadingSpinner from "./common/LoadingSpinner";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 function Search() {
   const history = useHistory();
-  const { apiData } = useRequest({ url: apiRoute.clients + `/search-client` });
+  const { apiData } = useRequest({ url: ApiRoutes.search + "/client" });
 
   const handleOnSelect = (item) => {
     // the item selected
     history.push(`/clients/${item.id}`);
   };
-
   return (
     <div className="content-wrapper">
       <section className="content">
@@ -26,7 +25,7 @@ function Search() {
                 <ReactSearchAutocomplete
                   items={apiData}
                   fuseOptions={{ keys: ["firstName", "lastName", "phoneNo"] }}
-                  resultStringKeyName="nameAndPhone"
+                  resultStringKeyName="displayedResult"
                   placeholder="Type Name or Phone"
                   onSelect={handleOnSelect}
                 />

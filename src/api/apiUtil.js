@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
 import { API_BASE_URL } from "../constants/index";
-import apiRoute from "./apiRoute";
+import {ApiRoutes} from "../routes"
 import { useHistory } from "react-router-dom";
 
 const useRequest = ({ url }) => {
@@ -44,8 +44,8 @@ const useRequest = ({ url }) => {
 
 export default useRequest;
 
-export function GetCurrentUser() {
-  const dataResponse = axios.get(API_BASE_URL + apiRoute.user);
+export async function GetCurrentUser() {
+  const dataResponse = axios.get(API_BASE_URL + ApiRoutes.user);
   return dataResponse;
 }
 

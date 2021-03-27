@@ -1,31 +1,25 @@
 import React, { useState } from "react";
-import apiRoute from "../api/apiRoute";
-import TableUtil from "./components/TableUtil";
+import { ApiRoutes } from "../routes";
 import useRequest from "../api/apiUtil";
-import LoadingSpinner from "./common/LoadingSpinner";
+import LoadingSpinner from "../common/LoadingSpinner";
+import { ClientsTable } from "../components/Tables";
 
 function Clients() {
   const [pageNumber, setPageNumber] = useState(0);
-  const numberOfResultsOnPage = 10;
+
+  const [numberOfResultsOnPage, setNumberOfResultsOnPage] = useState(10);
   const { apiData } = useRequest({
-    url: apiRoute.clients + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
+    url:
+      ApiRoutes.clients + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
   });
 
-  const clientsTableHeaderData = {
-    firstName: "First Name",
-    lastName: "Last Name",
-    email: "E-mail",
-    phoneNo: "Phone",
-    clientId: "Id",
-    createdDate: "Created",
-    updatedDate: "Updated",
-    action: "Action",
+  const handlePageNumber = (props) => {
+    setPageNumber(pageNumber + props);
   };
 
-  const handlePageNo = (dataPage) => {
-    setPageNumber(pageNumber + dataPage);
+  const handleRowChange = (event) => {
+    setNumberOfResultsOnPage(event.target.value);
   };
-
   return (
     <div className="content-wrapper">
       <section className="content-header">
@@ -44,58 +38,64 @@ function Clients() {
           </div>
         </div>
       </section>
-      <section className="content">
-        <div className="card">
-          <div className="card-header">
-            <h3 className="card-title">Clients</h3>
+      {!apiData && LoadingSpinner()}
+
+      {apiData && (
+        <section className="content">
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">
+                Total Clients {apiData.totalElements}
+              </h3>
+              <div className="float-right">
+                <select onChange={handleRowChange}>
+                  <option value={10}>10</option>
+                  <option value={5}>5</option>
+                  <option value={20}>20</option>
+                </select>{" "}
+                rows per page
+              </div>
+            </div>
+            <div className="card-body">
+              <ClientsTable tableData={apiData.content} />
+              <div className="fixed-table-pagination">
+                <div className="float-left">
+                  Showing {apiData.pageable.offset} to{" "}
+                  {apiData.pageable.offset + apiData.numberOfElements} of{" "}
+                  {apiData.totalElements} entries
+                </div>
+                <div className="float-right">
+                  <ul className="pagination">
+                    {apiData.first === false && (
+                      <li>
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageNumber(-1)}
+                        >
+                          ‹
+                        </button>
+                      </li>
+                    )}
+
+                    {apiData.last === false && (
+                      <li>
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageNumber(1)}
+                        >
+                          ›
+                        </button>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="card-body">
-            {!apiData && LoadingSpinner()}
-            {apiData && (
-              <TableUtil
-                tableHeaderData={clientsTableHeaderData}
-                tableBodyData={apiData}
-                tableFootData={newFunction(apiData, pageNumber, handlePageNo)}
-              />
-            )}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 }
 
 export default Clients;
-function newFunction(clientsData, pageNumber, handlePageNo) {
-  return clientsData.length === 10 && pageNumber === 0 ? (
-    <tr>
-      <td>
-        <button className="page-link" onClick={() => handlePageNo(1)}>
-          Next
-        </button>
-      </td>
-    </tr>
-  ) : clientsData.length === 10 && pageNumber !== 0 ? (
-    <tr>
-      <td>
-        <button className="page-link" onClick={() => handlePageNo(-1)}>
-          Back
-        </button>
-      </td>
-      <td>
-        {" "}
-        <button className="page-link" onClick={() => handlePageNo(1)}>
-          Next
-        </button>
-      </td>
-    </tr>
-  ) : clientsData.length < 10 && pageNumber !== 0 ? (
-    <tr>
-      <td>
-        <button className="page-link" onClick={() => handlePageNo(-1)}>
-          Back
-        </button>
-      </td>
-    </tr>
-  ) : null;
-}

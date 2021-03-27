@@ -1,4 +1,5 @@
 import React from "react";
+import { Routes } from "../routes";
 
 function Header() {
   return (
@@ -10,28 +11,28 @@ function Header() {
           </a>
         </li>
         <li className="nav-item d-none d-sm-inline-block">
-          <a href="/" className="nav-link">
-            Home
+          <a href={Routes.HomePage.path} className="nav-link">
+            {Routes.HomePage.name}
           </a>
         </li>
         <li className="nav-item d-none d-sm-inline-block">
-          <a href="/clients" className="nav-link">
-            Clients
+          <a href={Routes.Clients.path} className="nav-link">
+            {Routes.Clients.name}
           </a>
         </li>
         <li className="nav-item d-none d-sm-inline-block">
-          <a href="/bookings" className="nav-link">
-            Bookings
+          <a href={Routes.Bookings.path} className="nav-link">
+            {Routes.Bookings.name}
           </a>
         </li>
         <li className="nav-item d-none d-sm-inline-block">
-          <a href="/search" className="nav-link">
-            Search
+          <a href={Routes.Search.path} className="nav-link">
+            {Routes.Search.name}
           </a>
         </li>
         <li className="nav-item d-none d-sm-inline-block">
-          <a href="/logout" className="nav-link">
-            Logout
+          <a href={Routes.Logout.path} className="nav-link">
+            {Routes.Logout.name}
           </a>
         </li>
       </ul>

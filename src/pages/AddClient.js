@@ -1,5 +1,5 @@
 import React from "react";
-import apiRoute from "../api/apiRoute";
+import {ApiRoutes} from "../routes"
 import { UsePost } from "../api/apiUtil";
 import { useHistory } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
@@ -10,7 +10,7 @@ function AddClient() {
   const { register, handleSubmit, control, errors } = useForm();
   const history = useHistory();
   const onSubmit = (data) => {
-    UsePost({ url: apiRoute.clients, params: data })
+    UsePost({ url: ApiRoutes.clients, params: data })
       .then((res) => {
         toast.success(`Add Client ${res.firstName} !`);
         history.push(`/clients/${res.clientId}`);
