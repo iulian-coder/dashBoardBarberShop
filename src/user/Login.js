@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 import { toast } from "react-toastify";
-import apiRoute from "../api/apiRoutes";
+import { ApiRoutes } from "../routes";
 import { UsePost } from "../api/apiUtil";
 import {
   GOOGLE_AUTH_URL,
@@ -16,7 +16,7 @@ function Login() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    UsePost({ url: apiRoute.login, params: data })
+    UsePost({ url: ApiRoutes.login, params: data })
       .then((res) => {
         localStorage.setItem(ACCESS_TOKEN, res.accessToken);
         history.push("/");

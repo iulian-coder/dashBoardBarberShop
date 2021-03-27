@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "../api/axios";
 import { UsePut } from "../api/apiUtil";
-import apiRoute from "../api/apiRoutes";
+import {ApiRoutes} from "../routes"
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import PhoneInput from "react-phone-input-2";
@@ -18,7 +18,7 @@ function FormProfileModify({ clientId }) {
   useEffect(() => {
     async function fetchData() {
       await axios
-        .get(apiRoute.clients + `/${clientId}`)
+        .get(ApiRoutes.clients + `/${clientId}`)
         .then((res) => {
           reset(res.data);
         })
@@ -43,7 +43,7 @@ function FormProfileModify({ clientId }) {
       phoneNo: formData.phoneNo,
     };
 
-    UsePut({ url: apiRoute.clients, params: updateData })
+    UsePut({ url: ApiRoutes.clients, params: updateData })
       .then((res) => {
         localStorage.setItem("message", `${res.message}`);
         history.go(0);

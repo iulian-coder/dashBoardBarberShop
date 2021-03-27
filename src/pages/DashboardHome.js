@@ -1,22 +1,14 @@
 import React from "react";
-import apiRoute from "../api/apiRoutes";
-import TableUtil from "../components/TableUtil";
-
+import { ApiRoutes } from "../routes";
 import StatBox from "../components/StatBox";
 import useRequest from "../api/apiUtil.js";
-import LoadingSpinner from "./common/LoadingSpinner";
-import { formatDate } from "../components/tableData";
+import LoadingSpinner from "../common/LoadingSpinner";
+import { DashboardTable, formatDate } from "../components/Tables";
 
 function DashboardHome() {
   const { apiData } = useRequest({
-    url: apiRoute.dashboard,
+    url: ApiRoutes.dashboard,
   });
-  const dashBoardTableHeaderData = {
-    bookingDate: "Date",
-    bookingTime: "Time",
-    status: "Status",
-    client: "Client",
-  };
   return (
     <div className="content-wrapper">
       <div className="content-header">
@@ -71,18 +63,12 @@ function DashboardHome() {
             <div className="card-header border-transparent">
               {apiData && (
                 <h3 className="card-title">
-                  {formatDate(apiData.reportDate, "MONTH")} Bookings
+                  {formatDate({ date: apiData.reportDate, option: "MONTH" })}{" "}
+                  Bookings
                 </h3>
               )}
             </div>
-            {apiData && (
-              <div className="card-body p-0">
-                <TableUtil
-                  tableHeaderData={dashBoardTableHeaderData}
-                  tableBodyData={apiData.bookingList}
-                />
-              </div>
-            )}
+            {apiData && <DashboardTable tableData={apiData.bookingList} />}
 
             <div className="card-footer">
               <a href="/search" className="btn btn-sm btn-info float-left">

@@ -1,7 +1,7 @@
 import React from "react";
-import apiRoute from "../api/apiRoutes";
+import { ApiRoutes } from "../routes";
 import { UsePut } from "../api/apiUtil.js";
-import { formatDate } from "../components/tableData";
+import { formatDate } from "../components/Tables";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -12,7 +12,7 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
       id: bookingId,
       status: status,
     };
-    UsePut({ url: apiRoute.bookings, params: bookingData })
+    UsePut({ url: ApiRoutes.bookings, params: bookingData })
       .then((res) => {
         localStorage.setItem("message", `Booking ID:${res.id} updated`);
         history.go(0);
@@ -31,13 +31,19 @@ function UpcomingBookingsProfile({ clientDataUpcomingBookings }) {
           <div className="timeline-item">
             <span className="time">
               <i className="far fa-clock" /> Created at{" "}
-              {formatDate(item.createdDate, "UTC")}
+              {formatDate({ date: item.createdDate, option: "UTC" })}
             </span>
-            <h3 className="timeline-header">{formatDate(item.bookingDate)}</h3>
+            <h3 className="timeline-header">
+              {formatDate({ date: item.bookingDate })}
+            </h3>
             <div className="timeline-body">
               <ul>
-                <li>Date: {formatDate(item.bookingDate, "LONG")}</li>
-                <li>Time: {formatDate(item.bookingDate, "TIME")}</li>
+                <li>
+                  Date: {formatDate({ date: item.bookingDate, option: "LONG" })}
+                </li>
+                <li>
+                  Time: {formatDate({ date: item.bookingDate, option: "TIME" })}
+                </li>
                 <li>Notes: {item.bookingNotes ? item.bookingNotes : "None"}</li>
               </ul>
             </div>

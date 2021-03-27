@@ -19,8 +19,12 @@ function AppRoutes() {
     <Switch>
       <Route exact path={Routes.Login.path} component={Login} />
       <Route exact path={Routes.Signup.path} component={Signup} />
-      <Route exact path="/oauth2/redirect" component={OAuth2RedirectHandler} />
-      <Route path="/" component={Login} />
+      <Route
+        exact
+        path={Routes.Oauth2.path}
+        component={OAuth2RedirectHandler}
+      />
+      <Route path={Routes.HomePage.path} component={Login} />
     </Switch>
   );
 }

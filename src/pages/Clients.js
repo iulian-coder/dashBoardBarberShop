@@ -1,30 +1,20 @@
 import React, { useState } from "react";
-import apiRoute from "../api/apiRoutes";
-import TableUtil from "../components/TableUtil";
+import { ApiRoutes } from "../routes";
 import useRequest from "../api/apiUtil";
-import LoadingSpinner from "./common/LoadingSpinner";
+import LoadingSpinner from "../common/LoadingSpinner";
+import { ClientsTable } from "../components/Tables";
 
 function Clients() {
-  const [pageNumber, setPageNumber] = useState(0);
+  const [pageNumber] = useState(0);
   const numberOfResultsOnPage = 10;
   const { apiData } = useRequest({
-    url: apiRoute.clients + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
+    url:
+      ApiRoutes.clients + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
   });
 
-  const clientsTableHeaderData = {
-    firstName: "First Name",
-    lastName: "Last Name",
-    email: "E-mail",
-    phoneNo: "Phone",
-    clientId: "Id",
-    createdDate: "Created",
-    updatedDate: "Updated",
-    action: "Action",
-  };
 
-  const handlePageNo = (dataPage) => {
-    setPageNumber(pageNumber + dataPage);
-  };
+
+  
 
   return (
     <div className="content-wrapper">
@@ -52,11 +42,7 @@ function Clients() {
           <div className="card-body">
             {!apiData && LoadingSpinner()}
             {apiData && (
-              <TableUtil
-                tableHeaderData={clientsTableHeaderData}
-                tableBodyData={apiData}
-                tableFootData={newFunction(apiData, pageNumber, handlePageNo)}
-              />
+                   <ClientsTable tableData={apiData} />
             )}
           </div>
         </div>
@@ -66,36 +52,36 @@ function Clients() {
 }
 
 export default Clients;
-function newFunction(clientsData, pageNumber, handlePageNo) {
-  return clientsData.length === 10 && pageNumber === 0 ? (
-    <tr>
-      <td>
-        <button className="page-link" onClick={() => handlePageNo(1)}>
-          Next
-        </button>
-      </td>
-    </tr>
-  ) : clientsData.length === 10 && pageNumber !== 0 ? (
-    <tr>
-      <td>
-        <button className="page-link" onClick={() => handlePageNo(-1)}>
-          Back
-        </button>
-      </td>
-      <td>
-        {" "}
-        <button className="page-link" onClick={() => handlePageNo(1)}>
-          Next
-        </button>
-      </td>
-    </tr>
-  ) : clientsData.length < 10 && pageNumber !== 0 ? (
-    <tr>
-      <td>
-        <button className="page-link" onClick={() => handlePageNo(-1)}>
-          Back
-        </button>
-      </td>
-    </tr>
-  ) : null;
-}
+// function newFunction(clientsData, pageNumber, handlePageNo) {
+//   return clientsData.length === 10 && pageNumber === 0 ? (
+//     <tr>
+//       <td>
+//         <button className="page-link" onClick={() => handlePageNo(1)}>
+//           Next
+//         </button>
+//       </td>
+//     </tr>
+//   ) : clientsData.length === 10 && pageNumber !== 0 ? (
+//     <tr>
+//       <td>
+//         <button className="page-link" onClick={() => handlePageNo(-1)}>
+//           Back
+//         </button>
+//       </td>
+//       <td>
+//         {" "}
+//         <button className="page-link" onClick={() => handlePageNo(1)}>
+//           Next
+//         </button>
+//       </td>
+//     </tr>
+//   ) : clientsData.length < 10 && pageNumber !== 0 ? (
+//     <tr>
+//       <td>
+//         <button className="page-link" onClick={() => handlePageNo(-1)}>
+//           Back
+//         </button>
+//       </td>
+//     </tr>
+//   ) : null;
+// }

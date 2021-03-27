@@ -1,32 +1,24 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import apiRoute from "../api/apiRoutes";
+import { ApiRoutes } from "../routes";
 import { UseDelete } from "../api/apiUtil";
 import FormProfileModify from "../components/ModifyClientProfile";
 import UpcomingBookingsProfile from "../components/UpcomingBookingsProfile";
 import { useHistory } from "react-router-dom";
 import FormProfileAddBooking from "../components/AddBooking";
-import TableUtil from "../components/TableUtil";
 import { toast } from "react-toastify";
 import useRequest from "../api/apiUtil.js";
-import LoadingSpinner from "./common/LoadingSpinner";
+import LoadingSpinner from "../common/LoadingSpinner";
+import { ClientProfileTable } from "../components/Tables";
 
 function ClientProfile() {
   const { id } = useParams();
-  const { apiData } = useRequest({ url: apiRoute.clients + `/${id}` });
+  const { apiData } = useRequest({ url: ApiRoutes.clients + `/${id}` });
   const history = useHistory();
-
-  const columnsData = {
-    bookingDate: "Date",
-    bookingTime: "Time",
-    status: "Status",
-    createdDate: "Created",
-    id: "Id",
-  };
 
   const handleDeleteClient = (clientId) => {
     let dataToDelete = { clientId: clientId };
-    UseDelete({ url: apiRoute.clients, params: dataToDelete })
+    UseDelete({ url: ApiRoutes.clients, params: dataToDelete })
       .then(() => {
         toast.success("Client deleted");
         history.push("/clients");
@@ -141,10 +133,7 @@ function ClientProfile() {
                   <div className="card-body">
                     <div className="tab-content">
                       <div className="active tab-pane" id="activity">
-                        <TableUtil
-                          tableHeaderData={columnsData}
-                          tableBodyData={apiData.bookingList}
-                        />
+                        <ClientProfileTable tableData={apiData.bookingList} />
                         <div>
                           <p>
                             Stats:{" "}
