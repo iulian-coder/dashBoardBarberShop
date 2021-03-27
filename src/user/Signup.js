@@ -2,7 +2,7 @@ import React from "react";
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from "../constants/index";
 import { useForm } from "react-hook-form";
 import { UsePost } from "../api/apiUtil";
-import apiRoute from "../api/apiRoutes";
+import {ApiRoutes} from "../routes"
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
@@ -11,7 +11,7 @@ function Signup() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    UsePost({ url: apiRoute.signup, params: data })
+    UsePost({ url: ApiRoutes.signup, params: data })
       .then((res) => {
         toast.success(res.message);
         history.push("/login");

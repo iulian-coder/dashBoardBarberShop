@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import apiRoute from "../api/apiRoutes";
+import {ApiRoutes} from "../routes"
 import useRequest from "../api/apiUtil";
-import LoadingSpinner from "./common/LoadingSpinner";
+import LoadingSpinner from "../common/LoadingSpinner";
 import { BookingsTable } from "../components/Tables";
 
 export default function Bookings() {
@@ -9,7 +9,7 @@ export default function Bookings() {
   const numberOfResultsOnPage = 10;
   const { apiData } = useRequest({
     url:
-      apiRoute.bookings + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
+      ApiRoutes.bookings + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
   });
 
   return (

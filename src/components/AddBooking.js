@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import apiRoute from "../api/apiRoutes";
+import {ApiRoutes} from "../routes";
 import { UsePost } from "../api/apiUtil";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -18,7 +18,7 @@ function FormProfileAddBooking({ clientId }) {
       bookingNotes: data.bookingNotes,
       sendSms: data.sendSms,
     };
-    UsePost({ url: apiRoute.bookings, params: newBooking })
+    UsePost({ url: ApiRoutes.bookings, params: newBooking })
       .then((res) => {
         localStorage.setItem(
           "message",
