@@ -5,17 +5,21 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import { ClientsTable } from "../components/Tables";
 
 function Clients() {
-  const [pageNumber] = useState(0);
-  const numberOfResultsOnPage = 10;
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const [numberOfResultsOnPage, setNumberOfResultsOnPage] = useState(10);
   const { apiData } = useRequest({
     url:
       ApiRoutes.clients + `?page=${pageNumber}&size=${numberOfResultsOnPage}`,
   });
 
+  const handlePageNumber = (props) => {
+    setPageNumber(pageNumber + props);
+  };
 
-
-  
-
+  const handleRowChange = (event) => {
+    setNumberOfResultsOnPage(event.target.value);
+  };
   return (
     <div className="content-wrapper">
       <section className="content-header">
@@ -34,54 +38,64 @@ function Clients() {
           </div>
         </div>
       </section>
-      <section className="content">
-        <div className="card">
-          <div className="card-header">
-            <h3 className="card-title">Clients</h3>
+      {!apiData && LoadingSpinner()}
+
+      {apiData && (
+        <section className="content">
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">
+                Total Clients {apiData.totalElements}
+              </h3>
+              <div className="float-right">
+                <select onChange={handleRowChange}>
+                  <option value={10}>10</option>
+                  <option value={5}>5</option>
+                  <option value={20}>20</option>
+                </select>{" "}
+                rows per page
+              </div>
+            </div>
+            <div className="card-body">
+              <ClientsTable tableData={apiData.content} />
+              <div className="fixed-table-pagination">
+                <div className="float-left">
+                  Showing {apiData.pageable.offset} to{" "}
+                  {apiData.pageable.offset + apiData.numberOfElements} of{" "}
+                  {apiData.totalElements} entries
+                </div>
+                <div className="float-right">
+                  <ul className="pagination">
+                    {apiData.first === false && (
+                      <li>
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageNumber(-1)}
+                        >
+                          ‹
+                        </button>
+                      </li>
+                    )}
+
+                    {apiData.last === false && (
+                      <li>
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageNumber(1)}
+                        >
+                          ›
+                        </button>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="card-body">
-            {!apiData && LoadingSpinner()}
-            {apiData && (
-                   <ClientsTable tableData={apiData} />
-            )}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 }
 
 export default Clients;
-// function newFunction(clientsData, pageNumber, handlePageNo) {
-//   return clientsData.length === 10 && pageNumber === 0 ? (
-//     <tr>
-//       <td>
-//         <button className="page-link" onClick={() => handlePageNo(1)}>
-//           Next
-//         </button>
-//       </td>
-//     </tr>
-//   ) : clientsData.length === 10 && pageNumber !== 0 ? (
-//     <tr>
-//       <td>
-//         <button className="page-link" onClick={() => handlePageNo(-1)}>
-//           Back
-//         </button>
-//       </td>
-//       <td>
-//         {" "}
-//         <button className="page-link" onClick={() => handlePageNo(1)}>
-//           Next
-//         </button>
-//       </td>
-//     </tr>
-//   ) : clientsData.length < 10 && pageNumber !== 0 ? (
-//     <tr>
-//       <td>
-//         <button className="page-link" onClick={() => handlePageNo(-1)}>
-//           Back
-//         </button>
-//       </td>
-//     </tr>
-//   ) : null;
-// }

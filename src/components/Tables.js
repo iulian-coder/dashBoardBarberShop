@@ -185,7 +185,7 @@ export const ClientsTable = ({ tableData }) => {
       <table className="table table-bordered m-0 table-sm">
         <thead>
           <tr>
-            <th>#</th>
+            <th>Id</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>E-mail</th>
